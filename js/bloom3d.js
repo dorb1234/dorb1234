@@ -191,12 +191,53 @@
     m.position.set(rand(-6, 6), rand(-4, 5), rand(-3, 2)); m.rotation.set(rand(0, 6), rand(0, 6), rand(0, 6));
     scene.add(m); floaters.push(f);
   }
-  function burst(at) {
+  function burst(at, power = 1) {
     floaters.forEach(f => {
       f.m.position.copy(at).add(new T.Vector3(rand(-.4, .4), rand(-.4, .4), rand(-.2, .4)));
-      const d = f.m.position.clone().sub(at).normalize().multiplyScalar(rand(.05, .14));
-      f.v.copy(d); f.v.y += .03;
+      const d = f.m.position.clone().sub(at).normalize().multiplyScalar(rand(.05, .14) * power);
+      f.v.copy(d); f.v.y += .03 * power;
     });
+  }
+
+  /* ---------- surprise: pulse → spin → explode → reassemble ---------- */
+  const parts = blossoms.children.map(o => ({ o, pos: o.position.clone(), q: o.quaternion.clone(), v: new T.Vector3(), w: new T.Vector3() }));
+  let pulse = 0, heat = 0, phase = 'idle', phaseAt = 0, spinBoost = 0, onBoom = null;
+  const worldCenter = () => blossoms.getWorldPosition(new T.Vector3()).add(new T.Vector3(0, -.3, 0));
+  window.Bloom3D = {
+    pulse(h) { pulse = 1; heat = h; burst(worldCenter(), .35 + h * .5); loop(); },
+    sparkle() { burst(worldCenter(), .8); pulse = .6; loop(); },
+    explode() {
+      return new Promise(res => { phase = 'spin'; phaseAt = performance.now(); onBoom = res; loop(); });
+    }
+  };
+  function boom() {
+    parts.forEach(p => {
+      const dir = p.o.position.clone().sub(new T.Vector3(0, -1.2, -.8));
+      if (dir.lengthSq() < .01) dir.set(rand(-1, 1), 1, rand(-1, 1));
+      p.v.copy(dir.normalize().multiplyScalar(rand(.16, .3))); p.v.y += rand(.04, .12); p.v.z += rand(.05, .15);
+      p.w.set(rand(-.2, .2), rand(-.2, .2), rand(-.2, .2));
+    });
+    burst(worldCenter(), 2.4);
+    host.classList.add('flash'); setTimeout(() => host.classList.remove('flash'), 700);
+  }
+  const qTmp = new T.Quaternion();
+  function stepSurprise(now) {
+    const dt = (now - phaseAt) / 1000;
+    if (phase === 'spin') {
+      spinBoost += .02 + dt * .06;
+      if (dt > 1.15) { phase = 'boom'; phaseAt = now; boom(); onBoom && onBoom(); onBoom = null; }
+    } else if (phase === 'boom') {
+      spinBoost *= .95;
+      parts.forEach(p => {
+        p.o.position.add(p.v); p.v.multiplyScalar(.965); p.v.y -= .004;
+        p.o.rotation.x += p.w.x; p.o.rotation.y += p.w.y; p.o.rotation.z += p.w.z;
+      });
+      if (dt > 2.4) { phase = 'return'; phaseAt = now; parts.forEach(p => { p.from = p.o.position.clone(); p.fromQ = p.o.quaternion.clone(); }); }
+    } else if (phase === 'return') {
+      const k = ease(dt / 1.5);
+      parts.forEach(p => { p.o.position.lerpVectors(p.from, p.pos, k); qTmp.copy(p.fromQ).slerp(p.q, k); p.o.quaternion.copy(qTmp); });
+      if (dt > 1.5) { phase = 'idle'; heat = 0; }
+    }
   }
 
   /* ---------- sizing ---------- */
@@ -220,13 +261,14 @@
   host.addEventListener('pointerleave', () => { tx = ty = 0; drag = null; });
   host.addEventListener('pointerdown', e => { drag = e.clientX; host.classList.add('grabbing'); });
   addEventListener('pointerup', e => {
-    if (drag !== null && Math.abs(spinV) < .01) {
+    if (drag !== null && Math.abs(spinV) < .01 && !e.target.closest('#surprise-btn')) {
       // tap: scatter petals from where the pointer is
       const r = host.getBoundingClientRect();
       const v = new T.Vector3(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1, .5).unproject(camera);
       const dir = v.sub(camera.position).normalize();
-      burst(camera.position.clone().add(dir.multiplyScalar(12)));
+      burst(camera.position.clone().add(dir.multiplyScalar(12)), .5);
       host.classList.add('tapped');
+      window.BloomySurprise?.tap();
     }
     drag = null; host.classList.remove('grabbing');
   });
@@ -247,9 +289,14 @@
     for (const b of blooming) b.m.rotation.x = 1.5 + (b.lift - 1.5) * ease((t - .4 - b.delay) / 1.6);
     const sc = Math.min(1, scrollY / innerHeight);
     if (!drag) { spinV *= .94; dragY += spinV; }
-    ry += ((tx * .7 + dragY + (reduced ? 0 : Math.sin(t * .35) * .18) + sc * 1.2) - ry) * .06;
+    if (phase !== 'idle') stepSurprise(now);
+    dragY += spinBoost;
+    ry += ((tx * .7 + dragY + (reduced ? 0 : Math.sin(t * .35) * .18) + sc * 1.2) - ry) * (spinBoost > .01 ? .5 : .06);
     rx += ((ty * .35 - .05) - rx) * .06;
-    bouquet.rotation.set(rx, ry, 0);
+    pulse *= .9;
+    const wob = Math.sin(t * 38) * pulse * (.05 + heat * .1);
+    bouquet.rotation.set(rx, ry, wob);
+    bouquet.scale.setScalar(1 + pulse * (.04 + heat * .06) + (phase === 'spin' ? Math.min(.12, (now - phaseAt) / 9000) : 0));
     bouquet.position.y = .55 + (reduced ? 0 : Math.sin(t * .9) * .06) + sc * .8;
     for (const f of floaters) {
       f.m.position.add(f.v); f.m.rotation.x += f.spin.x; f.m.rotation.y += f.spin.y; f.m.rotation.z += f.spin.z;
@@ -257,7 +304,7 @@
       if (f.m.position.y < -5.5 || Math.abs(f.m.position.x) > 8) { f.m.position.set(rand(-6, 6), rand(5, 7), rand(-3, 2)); f.v.set(rand(-.004, .004), rand(-.012, -.004), 0); }
     }
     renderer.render(scene, camera);
-    if (reduced && t > 3 && !drag) return; // settle, stop animating
+    if (reduced && t > 3 && !drag && phase === 'idle' && pulse < .01) return; // settle, stop animating
     raf = requestAnimationFrame(frame);
   }
   host.classList.add('ready3d');

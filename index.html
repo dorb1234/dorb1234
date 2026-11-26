@@ -108,7 +108,7 @@
       <span>✳</span>
     </div>
     <div class="h3d-card glass"><span dir="ltr">THE BLOOMY FEELING</span>ככה נראה ״חשבתי עלייך״.</div>
-    <p class="h3d-hint" aria-hidden="true"><b>⟲</b> גררו לסובב · הקישו לפיזור עלים</p>
+    <button type="button" class="surprise-btn" id="surprise-btn" aria-live="polite"><span class="sb-gift" aria-hidden="true">🎁</span><span id="sb-text">לחצו על הזר להפתעה</span><span class="sb-dots" id="sb-dots" aria-hidden="true"></span></button>
   </div>
   <a class="scroll-cue" href="#marquee" aria-label="גללו למטה"><span></span></a>
 </section>
@@ -515,9 +515,11 @@
     <footer class="drawer-foot">
       <dl class="totals">
         <div><dt>זרים</dt><dd id="t-items">0 ₪</dd></div>
+        <div class="disc" id="t-disc-row" hidden><dt>🎁 הנחת הפתעה 10%</dt><dd id="t-disc"></dd></div>
         <div><dt id="t-ship-label">איסוף עצמי</dt><dd id="t-ship">ללא תשלום</dd></div>
         <div class="grand"><dt>סה״כ</dt><dd id="t-total">0 ₪</dd></div>
       </dl>
+      <p class="disc-tease" id="disc-tease">🎁 רמז: לחצו כמה פעמים על הזר בראש העמוד…</p>
       <p class="feedback" id="feedback" aria-live="assertive"></p>
       <div class="foot-btns">
         <button type="button" class="btn btn-ghost" id="prev-step" hidden><span>→ חזרה</span></button>
@@ -541,6 +543,21 @@
   <button type="button" class="btn btn-solid sm" id="bbar-add" disabled><span>לסל</span><i>+</i></button>
 </div>
 
+<!-- SURPRISE PRIZE -->
+<dialog class="modal prize" id="prize" aria-labelledby="prize-title">
+  <button class="close" type="button" data-close aria-label="סגירה">×</button>
+  <div class="prize-burst" aria-hidden="true">🌸</div>
+  <span class="eyebrow" dir="ltr">YOU FOUND THE SURPRISE</span>
+  <h3 id="prize-title">פוצצתם את הזר!<br><em>10% הנחה</em> על כל הזרים</h3>
+  <p>ההנחה כבר נשמרה בסל שלכם ותופיע בהודעת ההזמנה.</p>
+  <div class="prize-code"><span dir="ltr">BLOOMY10</span><button type="button" class="mini" id="prize-copy">העתקת הקוד</button></div>
+  <div class="hero-actions center">
+    <a class="btn btn-solid" href="#collection" data-close><span>לבחירת זר</span><i>←</i></a>
+    <a class="btn btn-ghost" href="#builder" data-close><span>לבנייה עצמית</span></a>
+  </div>
+  <p class="fine">ההנחה על מחיר הזרים בלבד, לא על המשלוח. בכפוף לאישור ההזמנה מול Bloomy.</p>
+</dialog>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="vendor/three.min.js"></script>
@@ -550,5 +567,6 @@
 <script src="js/builder.js"></script>
 <script src="js/checkout.js"></script>
 <script src="js/bloom3d.js"></script>
+<script src="js/surprise.js"></script>
 </body>
 </html>

@@ -773,3 +773,38 @@ select{height:44px;border-radius:999px;border:1px solid var(--line);background:v
   .ring-stage{height:calc(var(--item) * 1.9)}
   .stage{padding-bottom:60px}
 }
+
+/* ---------- surprise ---------- */
+.surprise-btn{--heat:0;position:absolute;z-index:3;top:2%;left:50%;translate:-50% 0;display:inline-flex;align-items:center;gap:10px;padding:10px 18px 10px 14px;border-radius:999px;border:0;font-weight:700;font-size:.95rem;color:#fff;white-space:nowrap;
+  background:linear-gradient(135deg,var(--cta-a),var(--cta-b));box-shadow:0 14px 30px -10px color-mix(in srgb,var(--cta-b) 75%,transparent),0 0 0 calc(var(--heat) * 10px) color-mix(in srgb,var(--cta-a) 30%,transparent);
+  animation:sbBob 2.4s ease-in-out infinite;transition:box-shadow .3s}
+.surprise-btn:hover{filter:brightness(1.05)}
+.sb-gift{font-size:1.25rem;display:inline-block;animation:sbGift 1.6s ease-in-out infinite}
+.sb-dots{display:inline-flex;gap:4px}
+.sb-dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);transition:background .2s,scale .3s var(--spring)}
+.sb-dots i.on{background:#fff;scale:1.25}
+.surprise-btn.done{background:linear-gradient(135deg,#f2b544,#ef7aa0);animation:none}
+.surprise-btn.done .sb-gift{animation:none}
+@keyframes sbBob{50%{translate:-50% -6px}}
+@keyframes sbGift{0%,100%{rotate:0deg}20%{rotate:-14deg}40%{rotate:12deg}60%{rotate:-6deg}}
+.hero-3d.shake .h3d-fallback{animation:shakeImg .45s}
+@keyframes shakeImg{25%{transform:rotate(-3deg) scale(1.02)}75%{transform:rotate(3deg) scale(1.02)}}
+.hero-3d::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.95),rgba(255,220,232,.6) 35%,transparent 65%);opacity:0;transform:scale(.4)}
+.hero-3d.flash::after{animation:flash .7s var(--ease)}
+@keyframes flash{30%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.4)}}
+.confetti{position:fixed;inset:0;z-index:800;pointer-events:none;overflow:hidden}
+.confetti i{position:absolute;width:10px;height:14px;border-radius:2px;animation:conf var(--d) cubic-bezier(.2,.7,.4,1) forwards}
+@keyframes conf{0%{transform:translate(0,0) rotate(0);opacity:1}70%{opacity:1}100%{transform:translate(var(--x),calc(var(--y) * -1 + 40vh)) rotate(var(--r));opacity:0}}
+.prize{width:min(480px,calc(100vw - 32px));padding:38px 28px 26px;text-align:center;overflow:visible;background:radial-gradient(ellipse at 50% 0%,var(--blush) 0%,transparent 60%),var(--surface)}
+.prize[open]{animation:prizeIn .7s var(--spring)}
+@keyframes prizeIn{from{opacity:0;transform:scale(.6) rotate(-6deg)}}
+.prize-burst{font-size:3.4rem;line-height:1;margin:-70px auto 10px;width:96px;height:96px;display:grid;place-items:center;border-radius:50%;background:var(--surface);box-shadow:var(--shadow);animation:spin 8s linear infinite}
+.prize h3{font-size:clamp(1.8rem,5vw,2.4rem);margin-bottom:12px}
+.prize h3 em{font-style:normal;color:var(--berry)}
+.prize>p{color:var(--ink-2)}
+.prize-code{display:flex;justify-content:center;align-items:center;gap:12px;margin:20px auto;padding:12px 16px;border:2px dashed var(--berry);border-radius:16px;width:fit-content;background:var(--blush-2)}
+.prize-code span{font:700 1.5rem var(--f-body);letter-spacing:.14em;color:var(--berry)}
+.prize .hero-actions{margin-top:6px}
+.totals .disc dd{color:#2f8a57}
+.disc-tease{font-size:.82rem;color:var(--berry);margin:0 0 10px;text-align:center}
+@media (max-width:640px){.surprise-btn{font-size:.86rem;padding:9px 14px 9px 12px}.sb-dots i{width:7px;height:7px}}

@@ -122,7 +122,10 @@
     $('#t-items').textContent = money(sub);
     $('#t-ship-label').textContent = pickup ? 'איסוף עצמי' : 'משלוח משוער';
     $('#t-ship').textContent = pickup ? 'ללא תשלום' : o.fee == null ? (o.point ? 'מחשבים…' : 'לפי כתובת') : 'כ־' + money(o.fee);
-    $('#t-total').textContent = (pickup ? money(sub) : o.fee == null ? money(sub) + ' + משלוח' : 'כ־' + money(sub + o.fee));
+    const dc = window.BloomyDiscount?.get(), disc = dc ? Math.round(sub * dc.pct / 100) : 0, net = sub - disc;
+    $('#t-disc-row').hidden = !disc; $('#t-disc').textContent = '−' + money(disc);
+    $('#disc-tease').hidden = !!dc;
+    $('#t-total').textContent = (pickup ? money(net) : o.fee == null ? money(net) + ' + משלוח' : 'כ־' + money(net + o.fee));
   }
 
   /* ---------- fulfilment ---------- */
@@ -270,7 +273,9 @@
       L.push('דמי משלוח משוערים: ' + (o.fee == null ? 'בתיאום' : o.fee + ' ₪'));
     }
     const sub = Cart.subtotal();
-    L.push('', 'סה״כ משוער: ' + (o.fulfil === 'pickup' ? sub + ' ₪' : o.fee == null ? sub + ' ₪ + משלוח' : (sub + o.fee) + ' ₪'));
+    const dc = window.BloomyDiscount?.get(), disc = dc ? Math.round(sub * dc.pct / 100) : 0, net = sub - disc;
+    if (disc) L.push('', `🎁 קוד הנחה ${dc.code}: ${dc.pct}% על הזרים (−${disc} ₪)`);
+    L.push('', 'סה״כ משוער: ' + (o.fulfil === 'pickup' ? net + ' ₪' : o.fee == null ? net + ' ₪ + משלוח' : (net + o.fee) + ' ₪'));
     L.push('אמצעי תשלום מועדף: ' + o.pay + ' (בכפוף לאישור העסק). טרם בוצע תשלום.');
     L.push('', o.greet.trim() ? `ברכה לכרטיס (${styleName[o.cstyle]}):\n${o.greet.trim()}${o.sign.trim() ? '\n— ' + o.sign.trim() : ''}` : 'ברכה לכרטיס: ללא ברכה');
     L.push('', 'אשמח לאישור זמינות ולמחיר סופי 🙏');
@@ -290,5 +295,6 @@
     try { await navigator.clipboard.writeText(message()); toast('פרטי ההזמנה הועתקו ✓'); }
     catch (e) { $('.msg-preview').open = true; toast('סמנו והעתיקו את ההודעה מהתצוגה'); }
   });
+  document.addEventListener('bloomy:discount', () => { totals(); refreshMsg(); });
   totals();
 })();
