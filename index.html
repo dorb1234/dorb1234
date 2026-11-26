@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bloomy | פרחים שעושים שמח</title>
+<meta name="description" content="הזרים של Bloomy מכפר מסריק. בחרו זר או הרכיבו זר אישי, הוסיפו ברכה ותאמו משלוח לחיפה, נהריה והקריות.">
+<meta name="theme-color" content="#1d3a2f">
+<meta property="og:title" content="Bloomy | פרחים שעושים שמח">
+<meta property="og:description" content="זרים מוכנים, בנייה עצמית וברכה מכל הלב. משלוחים לחיפה, נהריה והקריות.">
+<meta property="og:image" content="assets/photos/pink-gerberas.webp">
+<meta property="og:locale" content="he_IL">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B8%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/photos/pink-gerberas.webp" fetchpriority="high">
+<link rel="stylesheet" href="css/style.css">
+<script>(function(){var r=document.documentElement,t=null;try{t=localStorage.getItem('bloomy-theme')}catch(e){}var m=matchMedia('(prefers-color-scheme: dark)');r.dataset.theme=t||(m.matches?'dark':'light');if(!t&&m.addEventListener)m.addEventListener('change',function(e){try{if(localStorage.getItem('bloomy-theme'))return}catch(x){}r.dataset.theme=e.matches?'dark':'light'})})()</script>
+</head>
+<body>
+<a class="skip" href="#main">דילוג לתוכן</a>
+
+<!-- Preloader -->
+<div class="loader" id="loader" aria-hidden="true">
+  <svg viewBox="0 0 120 120" class="loader-flower">
+    <g class="lf-petals">
+      <ellipse cx="60" cy="32" rx="14" ry="26"/><ellipse cx="60" cy="32" rx="14" ry="26" transform="rotate(60 60 60)"/>
+      <ellipse cx="60" cy="32" rx="14" ry="26" transform="rotate(120 60 60)"/><ellipse cx="60" cy="32" rx="14" ry="26" transform="rotate(180 60 60)"/>
+      <ellipse cx="60" cy="32" rx="14" ry="26" transform="rotate(240 60 60)"/><ellipse cx="60" cy="32" rx="14" ry="26" transform="rotate(300 60 60)"/>
+    </g>
+    <circle cx="60" cy="60" r="11" class="lf-core"/>
+  </svg>
+  <div class="loader-word" dir="ltr">bloomy</div>
+</div>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+
+<div class="announcement">
+  <div class="announcement-track">
+    <span>🌸 משלוחים לחיפה, נהריה והקריות</span><span>✳ איסוף עצמי מכפר מסריק — חינם</span><span>✿ זר בבנייה עצמית מ־50 ₪</span><span>♡ ברכה אישית מכל הלב</span>
+    <span>🌸 משלוחים לחיפה, נהריה והקריות</span><span>✳ איסוף עצמי מכפר מסריק — חינם</span><span>✿ זר בבנייה עצמית מ־50 ₪</span><span>♡ ברכה אישית מכל הלב</span>
+  </div>
+</div>
+
+<header class="site-header" id="header">
+  <a href="#top" class="brand" dir="ltr" aria-label="Bloomy דף הבית">bloomy<span class="brand-star">✳</span></a>
+  <nav class="nav" aria-label="תפריט ראשי">
+    <a href="#collection">הזרים</a>
+    <a href="#builder">בנייה עצמית</a>
+    <a href="#finder">מצאו לי זר</a>
+    <a href="#story">על Bloomy</a>
+    <a href="#faq">שאלות</a>
+  </nav>
+  <div class="header-actions">
+    <button class="icon-btn" id="theme-toggle" type="button" aria-label="מצב כהה / בהיר">
+      <svg class="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      <svg class="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+    </button>
+    <button class="icon-btn" id="fav-open" type="button" aria-label="המועדפים שלי">
+      <svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.3-9.4C1.4 7.6 3.6 4 7.2 4c2 0 3.6 1.1 4.8 2.8C13.2 5.1 14.8 4 16.8 4c3.6 0 5.8 3.6 4.5 7.1-1.8 4.8-9.3 9.4-9.3 9.4Z"/></svg>
+      <b class="badge" id="fav-count" hidden>0</b>
+    </button>
+    <button class="cart-btn magnetic" id="cart-open" type="button" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24"><path d="M5 8h14l-1.3 11.2a2 2 0 0 1-2 1.8H8.3a2 2 0 0 1-2-1.8L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+      <span>הסל</span><b class="badge" id="cart-count" hidden>0</b>
+    </button>
+    <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="תפריט" aria-expanded="false">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <a href="#collection">הזרים שלנו</a><a href="#builder">בנייה עצמית</a><a href="#finder">מצאו לי זר</a><a href="#story">על Bloomy</a><a href="#faq">שאלות נפוצות</a>
+  <a class="mm-wa" href="https://wa.me/972504554781" target="_blank" rel="noopener">דברו איתנו בוואטסאפ</a>
+</div>
+
+<main id="main">
+<!-- HERO -->
+<section class="hero" id="top">
+  <canvas class="petals" id="petals" aria-hidden="true"></canvas>
+  <div class="hero-blob b1" aria-hidden="true"></div><div class="hero-blob b2" aria-hidden="true"></div>
+  <div class="hero-copy">
+    <span class="eyebrow reveal" dir="ltr">BLOOMY FLOWER STUDIO · KFAR MASARYK</span>
+    <h1 class="hero-title">
+      <span class="line"><span class="word">יש</span> <span class="word">הודעות</span></span>
+      <span class="line"><span class="word">ששולחים</span></span>
+      <span class="line accent"><span class="rotator" id="rotator"><span class="is-on">בפרחים.</span><span>באהבה.</span><span>בתודה.</span><span>בחיוך.</span></span></span>
+    </h1>
+    <p class="hero-lead reveal">״אוהב אותך״. ״תודה על הכול״. ״סתם, כי מגיע לך״.<br>מה אתם רוצים להגיד היום?</p>
+    <div class="hero-actions reveal">
+      <a class="btn btn-solid magnetic" href="#collection"><span>לכל הזרים</span><i>←</i></a>
+      <a class="btn btn-ghost magnetic" href="#builder"><span>מרכיבים בעצמנו</span><i>✿</i></a>
+    </div>
+    <ul class="hero-facts reveal">
+      <li><strong>8</strong><span>זרים מוכנים</span></li>
+      <li><strong>19</strong><span>פרחים לבנייה</span></li>
+      <li><strong>0 ₪</strong><span>איסוף עצמי</span></li>
+    </ul>
+  </div>
+  <div class="hero-visual" id="hero-visual">
+    <figure class="hv-main tilt" data-depth="0.6">
+      <img src="assets/photos/pink-gerberas.webp" alt="זר גרברות וציפורנים ורודות של Bloomy" fetchpriority="high" width="900" height="1200">
+      <figcaption><span dir="ltr">THE BLOOMY FEELING</span>ככה נראה ״חשבתי עלייך״.</figcaption>
+    </figure>
+    <figure class="hv-side s1" data-depth="1.4"><img src="assets/photos/white-bouquet.webp" alt="" width="738" height="979"></figure>
+    <figure class="hv-side s2" data-depth="1"><img src="assets/photos/sunflowers.webp" alt="" width="738" height="979"></figure>
+    <div class="hv-stamp" data-depth="2" aria-hidden="true">
+      <svg viewBox="0 0 200 200"><defs><path id="circ" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
+        <text><textPath href="#circ">a little flower · a lot of love · a little flower · a lot of love ·</textPath></text></svg>
+      <span>✳</span>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#marquee" aria-label="גללו למטה"><span></span></a>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" id="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>פחות לחפש. יותר להרגיש.</span><em>✳</em><span>פרחים עם משהו להגיד.</span><em>✳</em><span dir="ltr">THE LITTLE THINGS, IN BLOOM.</span><em>✳</em>
+    <span>פחות לחפש. יותר להרגיש.</span><em>✳</em><span>פרחים עם משהו להגיד.</span><em>✳</em><span dir="ltr">THE LITTLE THINGS, IN BLOOM.</span><em>✳</em>
+  </div>
+</div>
+
+<!-- QUICK PATHS -->
+<section class="section paths">
+  <div class="section-head center reveal">
+    <span class="eyebrow" dir="ltr">YOUR KIND OF FLOWERS</span>
+    <h2>ישר למה <em>שבא לכם.</em></h2>
+    <p>זר מוכן, משהו בתקציב, או שילוב שרק אתם תיצרו.</p>
+  </div>
+  <div class="path-grid">
+    <a class="path-card reveal tilt" href="#collection" data-jump-filter="under100">
+      <img src="assets/photos/white-bouquet.webp" alt="" loading="lazy"><div class="path-copy"><small>קטן ומדויק</small><strong>זרים עד 100 ₪</strong><i>←</i></div>
+    </a>
+    <a class="path-card reveal tilt" href="#collection" data-jump-filter="pink">
+      <img src="assets/photos/pink-gerberas.webp" alt="" loading="lazy"><div class="path-copy"><small>ורוד זו תמיד בחירה יפה</small><strong>הזרים הוורודים</strong><i>←</i></div>
+    </a>
+    <a class="path-card reveal tilt" href="#builder">
+      <img src="assets/photos/pink-lilies.webp" alt="" loading="lazy"><div class="path-copy"><small>מינימום 50 ₪ לזר</small><strong>מרכיבים משהו משלכם</strong><i>←</i></div>
+    </a>
+  </div>
+</section>
+
+<!-- FINDER -->
+<section class="section finder" id="finder">
+  <div class="finder-card reveal">
+    <div class="finder-intro">
+      <span class="eyebrow" dir="ltr">FIND YOUR FLOWER MIX</span>
+      <h2>למי הזר <em>היום?</em></h2>
+      <p>שלוש שאלות קצרות — ואנחנו מציעים את הזר שהכי מתאים.</p>
+      <ol class="finder-steps" aria-hidden="true"><li class="on">למי</li><li>סגנון</li><li>תקציב</li></ol>
+    </div>
+    <div class="finder-body">
+      <fieldset class="finder-q">
+        <legend>בשביל מי?</legend>
+        <div class="chip-row" id="finder-who"></div>
+      </fieldset>
+      <fieldset class="finder-q">
+        <legend>איזה סגנון בא לכם?</legend>
+        <div class="chip-row" id="finder-tone">
+          <button type="button" class="chip" data-tone="pink"><b>♡</b> ורוד ורומנטי</button>
+          <button type="button" class="chip" data-tone="white"><b>✿</b> לבן ועדין</button>
+          <button type="button" class="chip" data-tone="yellow"><b>☀</b> צבעוני ושמח</button>
+          <button type="button" class="chip" data-tone="any"><b>✧</b> תפתיעו אותי</button>
+        </div>
+      </fieldset>
+      <fieldset class="finder-q">
+        <legend>עד כמה מתפנקים? <output id="finder-budget-out">עד 200 ₪</output></legend>
+        <input type="range" id="finder-budget" min="70" max="300" step="10" value="200" aria-label="תקציב לזר">
+        <div class="range-ends"><span>70 ₪</span><span>300 ₪</span></div>
+      </fieldset>
+      <div class="finder-result" id="finder-result" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLECTION -->
+<section class="section collection" id="collection">
+  <div class="section-head split reveal">
+    <div>
+      <span class="eyebrow">בחרו את הרגע שלכם</span>
+      <h2>איזה זר יעשה <em>לכם שמח?</em></h2>
+    </div>
+    <p>הזרים והתמונות של Bloomy. בוחרים זר, מוסיפים לסל — ומשם ממשיכים יחד לתאריך, ברכה ומשלוח.</p>
+  </div>
+  <div class="toolbar reveal">
+    <div class="search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+      <input type="search" id="search" placeholder="ורדים, חמניות, או שם של זר…" aria-label="חיפוש זר">
+    </div>
+    <div class="chip-row filters" id="filters" role="group" aria-label="סינון">
+      <button type="button" class="chip on" data-filter="all">כל הזרים</button>
+      <button type="button" class="chip" data-filter="pink">ורוד ורומנטי</button>
+      <button type="button" class="chip" data-filter="white">לבן ועדין</button>
+      <button type="button" class="chip" data-filter="yellow">צהוב ושמח</button>
+      <button type="button" class="chip" data-filter="under100">עד 100 ₪</button>
+      <button type="button" class="chip" data-filter="fav">♡ מועדפים</button>
+    </div>
+    <label class="sort">
+      <span>מיון</span>
+      <select id="sort"><option value="featured">מומלץ</option><option value="low">מחיר: מהנמוך</option><option value="high">מחיר: מהגבוה</option></select>
+    </label>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden>לא מצאנו זר בשילוב הזה. נסו סינון אחר — או <a href="#builder">הרכיבו זר אישי</a>.</p>
+  <p class="fine">הרכב הפרחים עשוי להשתנות בהתאם לעונה ולזמינות. מחיר המשלוח מחושב בנפרד.</p>
+</section>
+
+<!-- BUILDER -->
+<section class="section builder" id="builder">
+  <div class="section-head center reveal">
+    <span class="eyebrow" dir="ltr">MIX. MATCH. BLOOM.</span>
+    <h2>בואו נרכיב <em>משהו יפה.</em></h2>
+    <p>מוסיפים פרחים, רואים את הזר נבנה מול העיניים ואת המחיר מתעדכן. מינימום 50 ₪ לזר, לפני משלוח.</p>
+  </div>
+  <div class="builder-wrap">
+    <div class="studio reveal">
+      <div class="studio-top">
+        <div class="studio-price"><small>מחיר הזר</small><strong id="b-price">0 ₪</strong></div>
+        <div class="studio-stems"><strong id="b-stems">0</strong><small>גבעולים</small></div>
+      </div>
+      <div class="meter" aria-hidden="true"><span id="b-meter"></span><em>50 ₪</em></div>
+      <p class="meter-note" id="b-meter-note">הוסיפו פרחים ב־50 ₪ כדי להגיע למינימום</p>
+      <div class="stage" id="stage">
+        <div class="stage-glow"></div>
+        <div class="bouquet" id="bouquet">
+          <div class="bq-heads" id="bq-heads"></div>
+          <svg class="bq-wrap" viewBox="0 0 300 260" aria-hidden="true">
+            <defs>
+              <linearGradient id="paperL" x1="0" x2="1"><stop offset="0" stop-color="var(--wrap-a)"/><stop offset="1" stop-color="var(--wrap-b)"/></linearGradient>
+              <linearGradient id="paperR" x1="1" x2="0"><stop offset="0" stop-color="var(--wrap-a)"/><stop offset="1" stop-color="var(--wrap-c)"/></linearGradient>
+            </defs>
+            <path d="M18 18 L150 250 L120 40 Z" fill="url(#paperL)" opacity=".95"/>
+            <path d="M282 18 L150 250 L180 40 Z" fill="url(#paperR)" opacity=".95"/>
+            <path d="M60 60 L150 250 L240 60 Q150 95 60 60Z" fill="var(--wrap-a)"/>
+            <path d="M60 60 Q150 95 240 60" fill="none" stroke="var(--wrap-c)" stroke-width="1.5" opacity=".5"/>
+            <g class="ribbon"><path d="M128 196 Q150 206 172 196 L168 212 Q150 220 132 212Z" fill="var(--ribbon)"/>
+              <path d="M150 205 q-30 -2 -38 18 q22 4 38 -14Z M150 205 q30 -2 38 18 q-22 4 -38 -14Z" fill="var(--ribbon)" opacity=".9"/>
+              <path d="M146 210 l-12 40 M154 210 l12 40" stroke="var(--ribbon)" stroke-width="5" stroke-linecap="round"/></g>
+          </svg>
+        </div>
+        <p class="stage-empty" id="stage-empty">הוסיפו את הפרח הראשון שלכם 🌷</p>
+        <div class="stage-actions">
+          <button type="button" class="mini" id="b-undo" disabled>↶ ביטול</button>
+          <button type="button" class="mini" id="b-wrap">🎀 עטיפה</button>
+          <button type="button" class="mini" id="b-shuffle">⟳ סידור מחדש</button>
+          <button type="button" class="mini" id="b-clear">ניקוי</button>
+        </div>
+      </div>
+      <p class="fine">הדמיה לפי ההרכב שבחרתם. זו אינה תמונה של הזר שיישלח; מראה ושזירה עשויים להשתנות.</p>
+      <div class="studio-cta">
+        <button type="button" class="btn btn-solid wide" id="b-add" disabled><span>הוספת הזר לסל</span><i>+</i></button>
+        <a class="btn btn-ghost wide" id="b-ask" target="_blank" rel="noopener"><span>שאלה על הזר בוואטסאפ</span></a>
+      </div>
+    </div>
+
+    <div class="palette reveal">
+      <div class="palette-presets">
+        <span class="label">נקודת התחלה:</span>
+        <div class="chip-row" id="presets"></div>
+        <button type="button" class="chip surprise" id="b-surprise">✧ תפתיעו אותי</button>
+      </div>
+      <div class="palette-budget">
+        <label>תקציב לזר
+          <select id="b-budget"><option value="0">בלי הגבלה</option><option value="80">עד 80 ₪</option><option value="120">עד 120 ₪</option><option value="180">עד 180 ₪</option><option value="250">עד 250 ₪</option></select>
+        </label>
+        <label>גוון להפתעה
+          <select id="b-palette"><option value="pink">ורוד</option><option value="sunny">צהוב ושמש</option><option value="light">בהיר</option><option value="bold">אדום ועמוק</option><option value="mix">מיקס</option></select>
+        </label>
+      </div>
+      <div class="flower-list" id="flower-list"></div>
+      <p class="fine">כל יחידה היא גבעול; בגיבסנית ובירק — ענף. עד 60 גבעולים להרכב.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REAL LIFE HORIZONTAL GALLERY -->
+<section class="hscroll" id="gallery">
+  <div class="hscroll-sticky">
+    <div class="hscroll-head">
+      <span class="eyebrow" dir="ltr">BLOOMY, IN REAL LIFE</span>
+      <h2>ככה זה נראה <em>אצלנו.</em></h2>
+      <p>צילומים אמיתיים של הזרים שלנו — בשביל הצבעים, השזירה וההשראה.</p>
+      <a class="link-arrow" href="https://www.instagram.com/bloomy_flowers33/" target="_blank" rel="noopener">עוד זרים באינסטגרם ←</a>
+    </div>
+    <div class="hscroll-track" id="hscroll-track"></div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="section story" id="story">
+  <div class="story-grid">
+    <div class="story-media reveal">
+      <img src="assets/photos/pastel.webp" alt="זר ורוד ולבן של Bloomy" loading="lazy">
+      <img class="sm2" src="assets/photos/rustic-pink.webp" alt="" loading="lazy">
+    </div>
+    <div class="story-copy">
+      <span class="eyebrow reveal">נעים להכיר, Bloomy</span>
+      <h2 class="reveal big-quote">לתת לרגש <em>מקום לפרוח.</em></h2>
+      <p class="reveal">פרחים מכפר מסריק, למי שאתם אוהבים. אפשר לבחור אחד מהזרים שלנו או לבנות הרכב משלכם — אנחנו כאן לתאם את הפרטים ולעזור לבחור.</p>
+      <ul class="how reveal">
+        <li><b>01</b><div><strong>בוחרים</strong><span>זר מוכן מהקטלוג או הרכב אישי בסטודיו.</span></div></li>
+        <li><b>02</b><div><strong>מוסיפים ברכה</strong><span>כמה מילים קטנות, הרבה כוונה.</span></div></li>
+        <li><b>03</b><div><strong>מאשרים בוואטסאפ</strong><span>זמינות, תאריך ומחיר סופי — מול Bloomy.</span></div></li>
+        <li><b>04</b><div><strong>מישהו מחייך</strong><span>איסוף מכפר מסריק או משלוח עד הדלת.</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- AREAS -->
+<section class="section areas reveal">
+  <div class="areas-card">
+    <div>
+      <span class="eyebrow">בדרך אליכם, או בדרך אלינו</span>
+      <h2>לאן <em>מגיעים?</em></h2>
+      <p>איסוף עצמי מקיבוץ כפר מסריק — ללא תשלום. משלוחים לחיפה, נהריה והקריות, במחיר לפי מרחק.</p>
+      <button type="button" class="btn btn-solid magnetic" data-open-cart><span>לחישוב משלוח בסל</span><i>←</i></button>
+    </div>
+    <svg class="areas-map" viewBox="0 0 320 360" aria-label="מפת אזורי המשלוח: נהריה, כפר מסריק, הקריות וחיפה">
+      <path class="sea" d="M0 0 H120 C110 60 128 110 112 170 C100 220 70 250 40 300 L0 360Z"/>
+      <path class="route" d="M180 40 C175 110 188 150 190 170 C185 215 160 245 120 290"/>
+      <g class="pin" style="--d:0s"><circle cx="180" cy="40" r="7"/><text x="198" y="45">נהריה</text></g>
+      <g class="pin home" style="--d:.2s"><circle cx="192" cy="168" r="11"/><text x="212" y="173">כפר מסריק ✳</text></g>
+      <g class="pin" style="--d:.4s"><circle cx="162" cy="228" r="7"/><text x="180" y="233">הקריות</text></g>
+      <g class="pin" style="--d:.6s"><circle cx="118" cy="292" r="7"/><text x="136" y="297">חיפה</text></g>
+    </svg>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq" id="faq">
+  <div class="section-head center reveal">
+    <span class="eyebrow">לפני שהזר יוצא לדרך</span>
+    <h2>טוב <em>לדעת.</em></h2>
+  </div>
+  <div class="faq-list" id="faq-list"></div>
+</section>
+
+<!-- RAFFLE TEASER -->
+<section class="section teaser reveal">
+  <div class="teaser-card">
+    <span class="eyebrow" dir="ltr">✳ THE NEXT BLOOMY SURPRISE</span>
+    <h3>משהו טוב מתבשל.</h3>
+    <p>אנחנו מכינים הגרלה לקהילת הלקוחות שלנו. הפרס, המועד ותנאי ההשתתפות יפורסמו כאן לפני הפתיחה. רכישה כרגע אינה מהווה הרשמה להגרלה.</p>
+    <span class="soon">בקרוב · ההגרלה טרם נפתחה</span>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="final-cta">
+  <span class="eyebrow" dir="ltr">FLOWERS SAY IT BEST</span>
+  <h2 class="huge">למי נעשה<br><em>היום שמח?</em></h2>
+  <div class="hero-actions">
+    <a class="btn btn-light magnetic" href="#collection"><span>לבחירת זר</span><i>←</i></a>
+    <a class="btn btn-outline-light magnetic" href="https://wa.me/972504554781" target="_blank" rel="noopener"><span>דברו איתנו</span></a>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="footer-brand"><span class="brand" dir="ltr">bloomy<span class="brand-star">✳</span></span><p>כפר מסריק · חיפה · נהריה · הקריות</p></div>
+  <nav class="footer-links" aria-label="קישורים">
+    <a href="#collection">הזרים</a><a href="#builder">בנייה עצמית</a><a href="#faq">שאלות</a>
+    <a href="https://www.instagram.com/bloomy_flowers33/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://wa.me/972504554781" target="_blank" rel="noopener">WhatsApp · 050-455-4781</a>
+  </nav>
+  <p class="footer-fine">© <span id="year"></span> Bloomy Flower Studio. ההזמנות מאושרות בתיאום ואין חיוב באתר.</p>
+</footer>
+
+<a class="wa-float" href="https://wa.me/972504554781" target="_blank" rel="noopener" aria-label="וואטסאפ">
+  <svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3Zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6Zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7a.6.6 0 0 0 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.1 2.7 6.4 6.4 0 0 0 1.3 3.4 14.7 14.7 0 0 0 5.7 5c2.1.9 2.9 1 4 .8a3.4 3.4 0 0 0 2.2-1.6 2.8 2.8 0 0 0 .2-1.6c-.1-.2-.3-.3-.6-.4Z"/></svg>
+</a>
+
+<!-- QUICK VIEW -->
+<dialog class="modal qv" id="qv" aria-labelledby="qv-title">
+  <button class="close" type="button" data-close aria-label="סגירה">×</button>
+  <div class="qv-grid">
+    <figure class="qv-img"><img id="qv-img" alt=""></figure>
+    <div class="qv-body">
+      <span class="eyebrow">BLOOMY COLLECTION</span>
+      <h3 id="qv-title"></h3>
+      <p class="qv-price" id="qv-price"></p>
+      <p id="qv-long"></p>
+      <ul class="tags" id="qv-tags"></ul>
+      <div class="qv-actions">
+        <button type="button" class="btn btn-solid magnetic" id="qv-add"><span>זה הזר שלי — לסל</span><i>+</i></button>
+        <button type="button" class="icon-btn heart" id="qv-fav" aria-pressed="false" aria-label="הוספה למועדפים"><svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.3-9.4C1.4 7.6 3.6 4 7.2 4c2 0 3.6 1.1 4.8 2.8C13.2 5.1 14.8 4 16.8 4c3.6 0 5.8 3.6 4.5 7.1-1.8 4.8-9.3 9.4-9.3 9.4Z"/></svg></button>
+      </div>
+      <p class="fine">הפרחים לפי עונה וזמינות. המשלוח מחושב בנפרד.</p>
+      <div class="qv-nav"><button type="button" class="mini" id="qv-prev">→ הקודם</button><button type="button" class="mini" id="qv-next">הבא ←</button></div>
+    </div>
+  </div>
+</dialog>
+
+<!-- CART / CHECKOUT DRAWER -->
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden>
+  <div class="drawer-scrim" data-close-drawer></div>
+  <aside class="drawer-panel">
+    <header class="drawer-head">
+      <div><span class="eyebrow" dir="ltr">ONE LITTLE GESTURE</span><h3 id="drawer-title">עוד רגע, מישהו מחייך.</h3></div>
+      <button class="close" type="button" data-close-drawer aria-label="סגירה">×</button>
+    </header>
+    <ol class="steps" id="steps">
+      <li class="on" data-step="0"><span>1</span>הסל</li><li data-step="1"><span>2</span>קבלה</li><li data-step="2"><span>3</span>ברכה</li><li data-step="3"><span>4</span>סיכום</li>
+    </ol>
+    <div class="drawer-body">
+      <!-- step 0: cart -->
+      <section class="step-pane" data-pane="0">
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-empty" id="cart-empty">
+          <div class="ce-icon">🌷</div><p>הסל עדיין ריק.</p>
+          <div class="hero-actions center"><a class="btn btn-solid" href="#collection" data-close-drawer><span>לזרים</span></a><a class="btn btn-ghost" href="#builder" data-close-drawer><span>לבנייה עצמית</span></a></div>
+        </div>
+        <fieldset class="extras" id="extras-box">
+          <legend>עוד משהו קטן ליד הזר? <small>מחיר וזמינות בתיאום</small></legend>
+          <div class="extras-row" id="extras"></div>
+        </fieldset>
+      </section>
+      <!-- step 1: fulfilment -->
+      <section class="step-pane" data-pane="1" hidden>
+        <div class="seg" role="radiogroup" aria-label="איך תרצו לקבל את הזר?">
+          <label><input type="radio" name="fulfil" value="pickup" checked><span><b>איסוף עצמי</b><small>כפר מסריק · חינם</small></span></label>
+          <label><input type="radio" name="fulfil" value="delivery"><span><b>משלוח</b><small>חיפה, נהריה והקריות</small></span></label>
+        </div>
+        <div id="delivery-fields" hidden>
+          <form class="addr" id="addr-form">
+            <label for="addr">לאן שולחים?</label>
+            <div class="addr-row"><input id="addr" autocomplete="street-address" placeholder="עיר, רחוב ומספר בית"><button class="btn btn-solid sm" id="addr-go" type="submit"><span>חישוב</span></button></div>
+            <div class="chip-row small" id="city-chips"></div>
+            <p class="status" id="addr-status" aria-live="polite"></p>
+          </form>
+          <details class="map-box" id="map-box">
+            <summary>או בחרו מיקום במפה</summary>
+            <div class="map" id="map"></div>
+            <p class="fine">לחצו על היעד במפה או גררו את הסיכה. © OpenStreetMap · מסלול: OSRM.</p>
+          </details>
+          <div class="two">
+            <label>שם המקבל/ת <small>(חובה)</small><input id="r-name" autocomplete="name"></label>
+            <label>טלפון המקבל/ת <small>(חובה)</small><input id="r-phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr"></label>
+          </div>
+          <label>פרטי הגעה <small>(לא חובה)</small><input id="r-notes" placeholder="קומה, קוד בניין, שעה נוחה…"></label>
+        </div>
+        <div class="date-box">
+          <span class="label">מתי תרצו לקבל את הזר? <small>(חובה)</small></span>
+          <div class="chip-row" id="date-chips"></div>
+          <input type="date" id="o-date" aria-label="תאריך מבוקש">
+          <p class="fine">התאריך המבוקש כפוף לזמינות ולאישור העסק.</p>
+        </div>
+      </section>
+      <!-- step 2: greeting -->
+      <section class="step-pane" data-pane="2" hidden>
+        <div class="card-preview" id="card-preview">
+          <div class="cp-inner">
+            <span class="cp-script" dir="ltr">a little note from the heart</span>
+            <p class="cp-text" id="cp-text">כמה מילים קטנות. הרבה כוונה.</p>
+            <span class="cp-sign" id="cp-sign"></span>
+            <span class="cp-brand" dir="ltr">bloomy ✳</span>
+          </div>
+        </div>
+        <label>למי? <small>(בשביל הצעות לברכה)</small>
+          <select id="g-who"></select>
+        </label>
+        <div class="chip-row small" id="g-ideas"></div>
+        <label>מה לכתוב בכרטיס? <small>(לא חובה · <span id="g-count">0</span>/500)</small>
+          <textarea id="g-text" maxlength="500" rows="4" placeholder="אפשר להשאיר ריק להזמנה ללא ברכה"></textarea>
+        </label>
+        <label>חתימה <small>(לא חובה)</small><input id="g-sign" maxlength="60" placeholder="באהבה, …"></label>
+        <div class="card-styles" role="radiogroup" aria-label="סגנון כרטיס">
+          <label><input type="radio" name="cstyle" value="blush" checked><span class="sw blush"></span></label>
+          <label><input type="radio" name="cstyle" value="forest"><span class="sw forest"></span></label>
+          <label><input type="radio" name="cstyle" value="cream"><span class="sw cream"></span></label>
+          <label><input type="radio" name="cstyle" value="sun"><span class="sw sun"></span></label>
+        </div>
+      </section>
+      <!-- step 3: summary -->
+      <section class="step-pane" data-pane="3" hidden>
+        <label>אמצעי תשלום מועדף <small>(לתיאום עם העסק)</small>
+          <select id="pay"><option>לתאם עם העסק</option><option>כרטיס אשראי</option><option>Apple Pay</option><option>Google Pay</option><option value="bit">bit</option><option>PayBox</option></select>
+        </label>
+        <div class="bit" id="bit" hidden>
+          <strong>תשלום ב־bit ל־Bloomy</strong>
+          <p>מעבירים באפליקציית bit למספר <b dir="ltr">050-455-4781</b> — רק אחרי אישור הזמינות והסכום הסופי בוואטסאפ.</p>
+          <button type="button" class="mini" id="bit-copy">העתקת המספר</button>
+        </div>
+        <details class="msg-preview"><summary>הצגת הודעת ההזמנה</summary><pre id="msg"></pre></details>
+        <p class="fine">ההזמנה נשלחת כבקשה לתיאום. היא תאושר רק לאחר אישור הזמינות והמחיר הסופי מול Bloomy. אין חיוב באתר.</p>
+      </section>
+    </div>
+    <footer class="drawer-foot">
+      <dl class="totals">
+        <div><dt>זרים</dt><dd id="t-items">0 ₪</dd></div>
+        <div><dt id="t-ship-label">איסוף עצמי</dt><dd id="t-ship">ללא תשלום</dd></div>
+        <div class="grand"><dt>סה״כ</dt><dd id="t-total">0 ₪</dd></div>
+      </dl>
+      <p class="feedback" id="feedback" aria-live="assertive"></p>
+      <div class="foot-btns">
+        <button type="button" class="btn btn-ghost" id="prev-step" hidden><span>→ חזרה</span></button>
+        <button type="button" class="btn btn-solid grow" id="next-step"><span>להמשך</span><i>←</i></button>
+        <a class="btn btn-wa grow" id="send-wa" target="_blank" rel="noopener" hidden><span>שליחת ההזמנה בוואטסאפ</span></a>
+      </div>
+      <button type="button" class="link-btn" id="copy-order" hidden>העתקת פרטי ההזמנה</button>
+    </footer>
+  </aside>
+</div>
+
+<!-- FAVORITES -->
+<dialog class="modal favs" id="favs" aria-labelledby="favs-title">
+  <button class="close" type="button" data-close aria-label="סגירה">×</button>
+  <h3 id="favs-title">המועדפים שלי ♡</h3>
+  <div class="fav-list" id="fav-list"></div>
+</dialog>
+
+<div class="bbar" id="bbar" aria-hidden="true">
+  <button type="button" class="bbar-peek" id="bbar-peek"><span class="bbar-heads" id="bbar-heads"></span><span><strong id="bbar-price">0 ₪</strong><small id="bbar-stems">0 גבעולים</small></span></button>
+  <button type="button" class="btn btn-solid sm" id="bbar-add" disabled><span>לסל</span><i>+</i></button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/data.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/store.js"></script>
+<script src="js/builder.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>
