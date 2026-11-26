@@ -64,4 +64,18 @@
   $('#prize')?.addEventListener('click', e => { if (e.target.id === 'prize' || e.target.closest('[data-close]')) $('#prize').close(); });
   ui();
   if (unlocked) document.dispatchEvent(new CustomEvent('bloomy:discount'));
+
+  /* giveaway strip on the home page */
+  const strip = $('#ga-strip'), GV = window.BLOOMY && window.BLOOMY.giveaway;
+  if (strip && GV) {
+    const end = new Date(GV.ends).getTime();
+    const upd = () => {
+      const s = Math.floor((end - Date.now()) / 1000);
+      if (s <= 0) { strip.hidden = true; return false; }
+      strip.hidden = false;
+      $('#ga-strip-left').textContent = s > 86400 ? `נשארו ${Math.floor(s / 86400)} ימים ו־${Math.floor(s / 3600) % 24} שעות` : `נשארו ${Math.floor(s / 3600)}:${String(Math.floor(s / 60) % 60).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+      return true;
+    };
+    if (upd()) setInterval(upd, 1000);
+  }
 })();

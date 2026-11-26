@@ -6,6 +6,15 @@ window.BLOOMY = {
   instagram: 'https://www.instagram.com/bloomy_flowers33/',
   origin: { lat: 32.89, lon: 35.098 },      // קיבוץ כפר מסריק
   shippingPerKm: 3,
+
+  /* Instagram giveaway: one winner gets the bouquet they built.
+     ends = when entries close (Israel time). maxStems = size cap for entries. */
+  giveaway: {
+    ends: '2026-12-04T12:00:00+02:00',
+    endsLabel: 'יום שישי, 4.12 בשעה 12:00',
+    maxStems: 30,
+    minStems: 5
+  },
   customMinimum: 50,
   maxStems: 60,
 

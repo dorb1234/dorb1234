@@ -105,3 +105,19 @@ body.bpage{overflow:hidden;display:flex;flex-direction:column;background:radial-
   .b-note{margin-bottom:6px}
 }
 .b-quick,.b-tabs,.b-lead{flex-shrink:0}
+
+/* ---------- giveaway mode ---------- */
+.ga-bar{flex:0 0 auto;display:block;margin:0 max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));padding:9px 14px;border-radius:14px;text-align:center;text-decoration:none;font-size:.9rem;color:#fff;background:linear-gradient(135deg,var(--cta-a),var(--cta-b));box-shadow:0 10px 24px -12px color-mix(in srgb,var(--cta-b) 70%,transparent)}
+.ga-bar span{font-variant-numeric:tabular-nums}
+.ga .b-price strong{display:none}
+.ga .b-price::before{content:"🎁 זר החלומות";font:500 1.25rem var(--f-display);color:var(--berry)}
+.ga-form{display:grid;gap:10px}
+.ga-form label{display:grid;gap:5px;font-weight:600;font-size:.9rem}
+.ga-form small{font-weight:400;color:var(--muted)}
+.ga-form input,.ga-form textarea{width:100%;border:1.5px solid var(--line);background:var(--bg);border-radius:14px;padding:11px 13px;font:inherit;font-weight:400;resize:none}
+.ga-form input:focus,.ga-form textarea:focus{outline:0;border-color:var(--berry);box-shadow:0 0 0 4px color-mix(in srgb,var(--berry) 15%,transparent)}
+.ga-form .invalid{border-color:#d33;animation:shake .4s}
+.ga-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ga .b-summary li{padding:5px 0}
+.ga .b-next-wa{background:#1fa855}
+@media (max-width:860px){.ga-bar{margin-bottom:6px;padding:7px 12px;font-size:.84rem}.ga .b-price::before{font-size:1rem}}

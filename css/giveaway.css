@@ -1,0 +1,42 @@
+/* Bloomy — giveaway page */
+body.gpage{min-height:100vh;background:radial-gradient(ellipse at 50% -10%,var(--blush) 0%,transparent 55%),radial-gradient(ellipse at 100% 100%,var(--peach) 0%,transparent 45%),var(--bg);overflow-x:clip}
+.g-petals{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.g-petals i{position:absolute;top:-30px;width:14px;height:18px;border-radius:70% 0 70% 0;opacity:.75;transform:scale(var(--s));animation:gfall var(--d) linear infinite;animation-delay:var(--delay)}
+@keyframes gfall{0%{transform:translate(0,-40px) rotate(0) scale(var(--s))}100%{transform:translate(var(--x),110vh) rotate(540deg) scale(var(--s))}}
+.g-top{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+.g-top .b-back{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;text-decoration:none;border:1px solid var(--line);background:var(--surface);font-size:1.2rem;color:var(--ink)}
+.g-top .brand{font-size:1.7rem}
+.g-main{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-right,0px)) 60px max(16px,env(safe-area-inset-left,0px));display:grid;gap:28px}
+.g-hero{display:grid;justify-items:center;text-align:center;gap:14px}
+.g-rose{position:relative;width:min(240px,56vw);aspect-ratio:1;margin-bottom:-14px}
+.g-rose::before{content:"";position:absolute;inset:12%;border-radius:50%;background:radial-gradient(circle,var(--blush) 0%,transparent 70%);filter:blur(10px)}
+.g-rose canvas{position:relative;width:100%;height:100%;display:block}
+.g-gift{position:absolute;bottom:4%;left:6%;font-size:2.4rem;animation:sbGift 1.8s ease-in-out infinite}
+.g-rose.no3d canvas{display:none}
+.g-rose.no3d::after{content:"🌹";position:absolute;inset:0;display:grid;place-items:center;font-size:7rem}
+.g-badge{display:inline-block;padding:7px 16px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-weight:700;font-size:.9rem;color:var(--berry);box-shadow:var(--shadow-sm)}
+.g-hero h1{font-size:clamp(2.4rem,9vw,4.2rem);line-height:1.02}
+.g-hero h1 em{font-style:normal;color:var(--berry)}
+.g-lead{color:var(--ink-2);max-width:30em;font-size:1.05rem}
+.g-clock{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:520px;margin-top:6px;direction:rtl}
+.g-clock div{display:grid;justify-items:center;gap:2px;padding:14px 4px 10px;border-radius:20px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
+.g-clock b{font:700 clamp(2rem,9vw,3.2rem)/1 var(--f-body);font-variant-numeric:tabular-nums;color:var(--ink);display:inline-block}
+.g-clock b.tick{animation:gtick .45s var(--spring)}
+@keyframes gtick{0%{transform:translateY(-30%);opacity:.2}100%{transform:none;opacity:1}}
+.g-clock span{font-size:.8rem;color:var(--muted);font-weight:600}
+.last-day .g-clock div{border-color:var(--berry)}
+.last-day .g-clock b{color:var(--berry)}
+.g-ends{font-size:.92rem;color:var(--ink-2);font-weight:600}
+.g-cta{--bh:60px;font-size:1.1rem;padding:0 34px;margin-top:6px;animation:gpulse 2.4s ease-in-out infinite}
+@keyframes gpulse{50%{box-shadow:0 0 0 12px color-mix(in srgb,var(--cta-a) 22%,transparent),0 14px 30px -12px color-mix(in srgb,var(--cta-b) 70%,transparent)}}
+.closed .g-cta{animation:none;opacity:.5;pointer-events:none}
+.g-entered{font-size:.86rem;color:#2f8a57;font-weight:600}
+.g-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.g-steps div{display:grid;justify-items:center;text-align:center;gap:4px;padding:18px 10px;border-radius:22px;background:color-mix(in srgb,var(--surface) 80%,transparent);border:1px solid var(--line)}
+.g-steps b{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--cta-a),var(--cta-b));color:#fff;font-size:.95rem}
+.g-steps strong{font-size:1rem}
+.g-steps span{font-size:.8rem;color:var(--muted)}
+.g-rules{border-radius:20px;background:var(--surface);border:1px solid var(--line);padding:14px 18px}
+.g-rules summary{cursor:pointer;font-weight:700}
+.g-rules ul{margin:10px 0 0;padding-inline-start:20px;color:var(--ink-2);font-size:.92rem;display:grid;gap:6px}
+@media (max-width:520px){.g-steps{grid-template-columns:1fr}.g-steps div{grid-template-columns:auto 1fr;justify-items:start;text-align:start;column-gap:12px}.g-steps b{grid-row:span 2}}

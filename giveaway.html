@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ההגרלה של Bloomy | זר החלומות</title>
+<meta name="description" content="בונים זר חלומות, כותבים למי הוא, ושולחים לנו בוואטסאפ. זוכה אחד יקבל את הזר שבנה.">
+<meta property="og:title" content="ההגרלה של Bloomy 🎁 בנו את זר החלומות שלכם">
+<meta property="og:description" content="זוכה אחד יקבל את הזר שהוא בנה. ההשתתפות עד יום שישי.">
+<meta property="og:image" content="assets/photos/grand-roses.webp">
+<meta name="theme-color" content="#fff0f4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%81%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=11">
+<link rel="stylesheet" href="css/giveaway.css?v=11">
+<script>(function(){var r=document.documentElement,t=null;try{t=localStorage.getItem('bloomy-theme')}catch(e){}r.dataset.theme=t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')})()</script>
+</head>
+<body class="gpage">
+<div class="g-petals" aria-hidden="true"></div>
+
+<header class="g-top">
+  <a class="b-back" href="index.html" aria-label="חזרה לאתר">→</a>
+  <a class="brand" href="index.html" dir="ltr">bloomy<span class="brand-star">✻</span></a>
+  <a class="b-back" href="https://www.instagram.com/bloomy_flowers33/" target="_blank" rel="noopener" aria-label="אינסטגרם">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+  </a>
+</header>
+
+<main class="g-main">
+  <section class="g-hero">
+    <div class="g-rose" id="g-rose"><canvas id="rose3d" aria-hidden="true"></canvas><span class="g-gift" aria-hidden="true">🎁</span></div>
+    <span class="g-badge">🎉 הגרלה באינסטגרם</span>
+    <h1>בנו את <em>זר החלומות</em> שלכם</h1>
+    <p class="g-lead">זוכה אחד או אחת יקבלו בדיוק את הזר שבנו. בונים, כותבים למי הוא, ושולחים לנו בוואטסאפ.</p>
+
+    <div class="g-clock" id="g-clock" role="timer" aria-live="off">
+      <div><b id="cd-d">0</b><span>ימים</span></div>
+      <div><b id="cd-h">00</b><span>שעות</span></div>
+      <div><b id="cd-m">00</b><span>דקות</span></div>
+      <div><b id="cd-s">00</b><span>שניות</span></div>
+    </div>
+    <p class="g-ends" id="g-ends"></p>
+
+    <a class="btn btn-solid g-cta" id="g-cta" href="build.html?giveaway"><span>לבניית זר החלומות</span><i>←</i></a>
+    <p class="g-entered" id="g-entered" hidden>✓ כבר שלחתם השתתפות מהמכשיר הזה. אפשר לבנות ולשלוח שוב כדי לעדכן.</p>
+  </section>
+
+  <section class="g-steps" aria-label="איך משתתפים">
+    <div><b>1</b><strong>בונים זר</strong><span>בוחרים פרחים ועטיפה בסטודיו התלת־ממדי</span></div>
+    <div><b>2</b><strong>כותבים למי</strong><span>שם וכמה מילים קצרות</span></div>
+    <div><b>3</b><strong>שולחים בוואטסאפ</strong><span>וזהו, אתם בהגרלה</span></div>
+  </section>
+
+  <details class="g-rules">
+    <summary>תנאי ההשתתפות</summary>
+    <ul id="g-rules-list"></ul>
+  </details>
+</main>
+
+<script src="vendor/three.min.js"></script>
+<script src="js/data.js?v=11"></script>
+<script src="js/flora3d.js?v=11"></script>
+<script src="js/giveaway.js?v=11"></script>
+</body>
+</html>
