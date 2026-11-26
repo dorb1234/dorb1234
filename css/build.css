@@ -1,0 +1,107 @@
+/* Bloomy — bouquet studio page: one screen, no page scroll */
+html,body.bpage{height:100%}
+body.bpage{overflow:hidden;display:flex;flex-direction:column;background:radial-gradient(ellipse at 30% 0%,var(--blush-2),transparent 60%),var(--bg)}
+.b-top{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(10px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+.b-back,.b-cart{position:relative;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;text-decoration:none;border:1px solid var(--line);background:var(--surface);font-size:1.2rem;color:var(--ink)}
+.b-cart svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.b-top .brand{font-size:1.7rem}
+
+.b-app{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:16px;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+
+/* stage */
+.b-stage{position:relative;min-height:0;border-radius:var(--r-lg);background:radial-gradient(ellipse at 50% 42%,var(--surface) 0%,var(--blush-2) 80%);border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden}
+.b-stage #studio3d{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.b-stage.turning #studio3d{cursor:grabbing}
+.b-price{position:absolute;top:14px;right:16px;z-index:2;display:grid;justify-items:start;pointer-events:none}
+.b-price strong{font:500 2.4rem/1 var(--f-display);color:var(--berry)}
+.b-price strong.bump{animation:pop .45s var(--spring)}
+.b-price small{color:var(--muted);font-size:.85rem;margin-top:4px}
+.b-empty{position:absolute;inset:auto 0 46% 0;text-align:center;font:500 1.25rem var(--f-display);color:var(--ink-2);pointer-events:none;animation:float 3s ease-in-out infinite}
+.b-tools{position:absolute;top:14px;left:14px;z-index:2;display:flex;flex-direction:column;gap:8px}
+.b-tool{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--surface) 85%,transparent);backdrop-filter:blur(8px);font-size:1.05rem;display:grid;place-items:center;transition:transform .25s var(--spring)}
+.b-tool:hover:not(:disabled){transform:scale(1.08)}
+.b-tool:disabled{opacity:.35;cursor:default}
+.b-hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;margin:0;font-size:.78rem;color:var(--muted);pointer-events:none}
+.b-fallback{position:absolute;inset:18% 20% 12%;display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:2px}
+.b-fallback span{width:64px;height:64px}
+.b-fallback img,.b-fallback svg{width:100%;height:100%;object-fit:contain}
+
+/* panel */
+.b-panel{min-height:0;display:flex;flex-direction:column;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-sm);overflow:hidden}
+.b-steps{flex:0 0 auto;display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+.b-steps button{position:relative;border:0;background:none;padding:14px 6px;font-weight:600;font-size:.95rem;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:8px}
+.b-steps button span{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--bg-2);font-size:.78rem}
+.b-steps button.on{color:var(--ink)}
+.b-steps button.on span,.b-steps button.done span{background:var(--berry);color:#fff}
+.b-steps button.on::after{content:"";position:absolute;bottom:-1px;right:18%;left:18%;height:3px;border-radius:3px;background:var(--berry)}
+.b-pane{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;padding:14px 16px 6px;overflow:auto;overscroll-behavior:contain}
+.b-pane[hidden]{display:none!important}
+.b-quick{display:flex;align-items:center;gap:8px;font-size:.84rem;color:var(--muted);min-width:0}
+.b-quick>span{flex:0 0 auto}
+.b-scroll{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;min-width:0;padding-bottom:2px}
+.b-scroll::-webkit-scrollbar{display:none}
+.b-scroll .chip{flex:0 0 auto}
+.b-tabs .chip{position:relative}
+.b-tabs .chip[data-n]:not([data-n=""])::after{content:attr(data-n);position:absolute;top:-6px;left:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--berry);color:#fff;font-size:.68rem;font-weight:700;line-height:18px}
+.b-tray{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;align-content:start}
+.b-flower{display:grid;justify-items:center;gap:4px;padding:12px 8px 10px;border-radius:20px;border:1.5px solid var(--line);background:var(--bg);text-align:center;transition:border-color .25s,background .25s}
+.b-flower.has{border-color:var(--berry);background:var(--blush-2)}
+.b-flower[hidden]{display:none}
+.b-add{position:relative;width:74px;height:74px;border:0;background:none;padding:0;transition:transform .35s var(--spring)}
+.b-add:hover{transform:scale(1.08) rotate(-6deg)}
+.b-add:active{transform:scale(.92)}
+.b-add img,.b-add svg{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(0,0,0,.15))}
+.b-count{position:absolute;top:-4px;left:-6px;min-width:24px;height:24px;border-radius:12px;background:var(--berry);color:#fff;font-size:.76rem;font-weight:700;line-height:24px;padding:0 6px;scale:0;transition:scale .35s var(--spring)}
+.b-flower.has .b-count{scale:1}
+.b-flower strong{font-size:.9rem;font-weight:600}
+.b-step{display:flex;align-items:center;gap:8px}
+.b-step button{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:1.1rem;line-height:1}
+.b-step button:hover{background:var(--berry);color:#fff;border-color:var(--berry)}
+.b-step output{min-width:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.b-lead{font:500 1.4rem var(--f-display)}
+.b-wraps{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.b-wraps label{position:relative;cursor:pointer}
+.b-wraps input{position:absolute;inset:0;opacity:0;margin:0;width:100%;height:100%;cursor:pointer}
+.b-wraps span{display:grid;justify-items:center;gap:4px;padding:18px 10px;border-radius:20px;border:1.5px solid var(--line);background:var(--bg);text-align:center;transition:all .25s var(--ease)}
+.b-wraps .wk{width:44px;height:44px;margin-bottom:4px}
+.b-wraps small{color:var(--muted);font-size:.8rem}
+.b-wraps input:checked+span{border-color:var(--berry);background:var(--blush-2);box-shadow:0 0 0 3px color-mix(in srgb,var(--berry) 14%,transparent)}
+.b-wraps input:focus-visible+span{outline:2.5px solid var(--berry)}
+.b-summary{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.b-summary li{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.b-summary li b{font-weight:600}
+.b-summary li.total{border:0;padding-top:12px}
+.b-summary li.total b{font:500 1.5rem var(--f-display);color:var(--berry)}
+.b-sum-pic{width:36px;height:36px;display:grid;place-items:center}
+.b-sum-pic img,.b-sum-pic svg{width:100%;height:100%;object-fit:contain}
+.b-sum-pic .wk{width:26px;height:26px}
+.b-ask{font-weight:600;color:var(--berry);font-size:.92rem}
+.b-foot{flex:0 0 auto;padding:10px 16px 14px;border-top:1px solid var(--line);background:var(--surface)}
+.b-note{margin:0 0 8px;font-size:.84rem;color:var(--muted);text-align:center;min-height:1.2em}
+.b-note.ok{color:#2f8a57;font-weight:600}
+.b-note.warn{color:var(--berry);font-weight:600;animation:shake .4s}
+.b-foot-row{display:flex;gap:8px}
+.b-foot .btn{--bh:52px}
+.bpage .toast{bottom:auto;top:calc(70px + env(safe-area-inset-top,0px));translate:-50% -160%}
+.bpage .toast.show{translate:-50% 0}
+
+@media (max-width:860px){
+  .b-top{padding-top:calc(6px + env(safe-area-inset-top,0px));padding-bottom:6px}
+  .b-top .brand{font-size:1.45rem}
+  .b-app{grid-template-columns:1fr;grid-template-rows:minmax(220px,42%) minmax(0,1fr);gap:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+  .b-price strong{font-size:1.8rem}
+  .b-tools{flex-direction:row;top:auto;bottom:10px;left:10px}
+  .b-tool{width:38px;height:38px}
+  .b-hint{display:none}
+  .b-steps button{padding:11px 4px;font-size:.9rem}
+  .b-pane{padding:10px 12px 4px;gap:10px}
+  .b-tray{grid-template-columns:repeat(3,1fr);gap:8px}
+  .b-flower{padding:8px 4px}
+  .b-add{width:58px;height:58px}
+  .b-flower strong{font-size:.8rem}
+  .b-step{gap:4px}
+  .b-step button{width:30px;height:30px}
+  .b-foot{padding:8px 12px 10px}
+  .b-note{margin-bottom:6px}
+}
+.b-quick,.b-tabs,.b-lead{flex-shrink:0}

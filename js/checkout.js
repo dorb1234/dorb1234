@@ -296,5 +296,6 @@
     catch (e) { $('.msg-preview').open = true; toast('סמנו והעתיקו את ההודעה מהתצוגה'); }
   });
   document.addEventListener('bloomy:discount', () => { totals(); refreshMsg(); });
+  if (location.hash === '#cart') { history.replaceState(null, '', location.pathname); setTimeout(() => openCart(0), 400); }
   totals();
 })();

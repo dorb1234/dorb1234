@@ -11,6 +11,7 @@
   renderer.toneMapping = T.ACESFilmicToneMapping;
   renderer.toneMappingExposure = .85;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let on = false, raf = 0, last = performance.now(), busyUntil = 0;
 
   const scene = new T.Scene();
   const camera = new T.PerspectiveCamera(30, 1, .1, 100);
@@ -152,7 +153,6 @@
   canvas.addEventListener('pointerup', end); canvas.addEventListener('pointercancel', end);
 
   /* ---------- loop ---------- */
-  let on = false, raf = 0, last = performance.now(), busyUntil = 0;
   function kick() { busyUntil = performance.now() + 1800; if (on && !raf) raf = requestAnimationFrame(frame); }
   new IntersectionObserver(([e]) => { on = e.isIntersecting; if (on) kick(); }).observe(canvas);
   function frame(now) {

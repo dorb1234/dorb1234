@@ -113,7 +113,7 @@
     grid.innerHTML = list.map(cardHTML).join('');
     $('#empty').hidden = !!list.length;
     if (state.filter === 'fav' && !favs.size) $('#empty').innerHTML = 'עוד אין מועדפים. לחצו על ♡ בזר שאהבתם.';
-    else $('#empty').innerHTML = 'לא מצאנו זר בשילוב הזה. נסו סינון אחר — או <a href="#builder">הרכיבו זר אישי</a>.';
+    else $('#empty').innerHTML = 'לא מצאנו זר בשילוב הזה. נסו סינון אחר — או <a href="build.html">הרכיבו זר אישי</a>.';
   }
   function setFilter(f) {
     state.filter = f;

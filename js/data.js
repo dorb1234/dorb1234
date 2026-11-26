@@ -123,3 +123,6 @@ window.BLOOMY = {
     ['איך משלמים?', 'אחרי אישור ההזמנה והסכום הסופי בוואטסאפ: bit, PayBox, כרטיס אשראי, Apple Pay או Google Pay — בתיאום עם העסק.']
   ]
 };
+
+/* flower lookup used by the cart (custom bouquets) */
+window.BloomyBuilder = window.BloomyBuilder || { byId: Object.fromEntries(window.BLOOMY.flowers.map(f => [f.id, f])) };

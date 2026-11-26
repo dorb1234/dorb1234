@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>הסטודיו של Bloomy | בונים זר</title>
+<meta name="description" content="בונים זר משלכם בתלת־ממד: בוחרים פרחים, עטיפה, ומוסיפים לסל.">
+<meta name="theme-color" content="#fffaf8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B8%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=7">
+<link rel="stylesheet" href="css/build.css?v=7">
+<script>(function(){var r=document.documentElement,t=null;try{t=localStorage.getItem('bloomy-theme')}catch(e){}r.dataset.theme=t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')})()</script>
+</head>
+<body class="bpage">
+
+<header class="b-top">
+  <a class="b-back" href="index.html" aria-label="חזרה לאתר">→</a>
+  <a class="brand" href="index.html" dir="ltr">bloomy<span class="brand-star">✳</span></a>
+  <a class="b-cart" href="index.html#cart" aria-label="לסל">
+    <svg viewBox="0 0 24 24"><path d="M5 8h14l-1.3 11.2a2 2 0 0 1-2 1.8H8.3a2 2 0 0 1-2-1.8L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+    <b class="badge" id="cart-count" hidden>0</b>
+  </a>
+</header>
+
+<main class="b-app">
+  <!-- the bouquet -->
+  <section class="b-stage" id="stage" aria-label="הזר שלכם">
+    <div class="b-price">
+      <strong id="b-price">0 ₪</strong>
+      <small id="b-stems">0 גבעולים</small>
+    </div>
+    <canvas id="studio3d" aria-label="הזר שלכם בתלת־ממד. גררו כדי לסובב."></canvas>
+    <div class="b-fallback" id="b-fallback" hidden></div>
+    <p class="b-empty" id="stage-empty">בחרו פרחים כדי להתחיל 🌷</p>
+    <div class="b-tools">
+      <button type="button" class="b-tool" id="b-undo" aria-label="ביטול הפעולה האחרונה" disabled>↶</button>
+      <button type="button" class="b-tool" id="b-shuffle" aria-label="סידור מחדש">⟳</button>
+      <button type="button" class="b-tool" id="b-clear" aria-label="ניקוי הזר">🗑</button>
+    </div>
+    <p class="b-hint" aria-hidden="true">⟲ גררו את הזר כדי לסובב</p>
+  </section>
+
+  <!-- the controls -->
+  <section class="b-panel">
+    <nav class="b-steps" role="tablist" aria-label="שלבים">
+      <button type="button" role="tab" class="on" data-go="0" aria-selected="true"><span>1</span>פרחים</button>
+      <button type="button" role="tab" data-go="1" aria-selected="false"><span>2</span>עטיפה</button>
+      <button type="button" role="tab" data-go="2" aria-selected="false"><span>3</span>סיום</button>
+    </nav>
+
+    <div class="b-pane" data-pane="0">
+      <div class="b-quick">
+        <span>התחלה מהירה:</span>
+        <div class="b-scroll" id="presets"></div>
+      </div>
+      <div class="b-tabs b-scroll" id="ftabs" role="tablist" aria-label="סוגי פרחים"></div>
+      <div class="b-tray" id="tray"></div>
+    </div>
+
+    <div class="b-pane" data-pane="1" hidden>
+      <p class="b-lead">באיזו עטיפה לעטוף?</p>
+      <div class="b-wraps" role="radiogroup" aria-label="עטיפה">
+        <label><input type="radio" name="wrap" value="kraft"><span><i class="wk kraft"></i><b>נייר קראפט</b><small>חם וטבעי</small></span></label>
+        <label><input type="radio" name="wrap" value="blush"><span><i class="wk blush"></i><b>ורוד עדין</b><small>רך ורומנטי</small></span></label>
+        <label><input type="radio" name="wrap" value="white"><span><i class="wk white"></i><b>לבן</b><small>נקי ואלגנטי</small></span></label>
+        <label><input type="radio" name="wrap" value="clear"><span><i class="wk clear"></i><b>שקוף</b><small>רואים כל פרח</small></span></label>
+      </div>
+    </div>
+
+    <div class="b-pane" data-pane="2" hidden>
+      <p class="b-lead">הזר שלכם</p>
+      <ul class="b-summary" id="summary"></ul>
+      <a class="b-ask" id="b-ask" target="_blank" rel="noopener">יש שאלה? שולחים את ההרכב בוואטסאפ</a>
+      <p class="fine">ההדמיה מראה את ההרכב שבחרתם, לא את הזר המדויק שיישלח. מינימום 50 ₪ לזר, לפני משלוח.</p>
+    </div>
+
+    <footer class="b-foot">
+      <p class="b-note" id="b-note" aria-live="polite"></p>
+      <div class="b-foot-row">
+        <button type="button" class="btn btn-ghost sm" id="b-prev" hidden><span>→</span></button>
+        <button type="button" class="btn btn-solid grow" id="b-next"><span>לבחירת עטיפה</span><i>←</i></button>
+      </div>
+    </footer>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="vendor/three.min.js"></script>
+<script src="js/data.js?v=7"></script>
+<script src="js/flora3d.js?v=7"></script>
+<script src="js/studio3d.js?v=7"></script>
+<script src="js/build.js?v=7"></script>
+</body>
+</html>
