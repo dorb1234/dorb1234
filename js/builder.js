@@ -24,12 +24,11 @@
   const groups = [...new Set(D.flowers.map(f => f.group))];
   $('#flower-list').innerHTML = groups.map(g => {
     const fs = D.flowers.filter(f => f.group === g);
-    const rate = [...new Set(fs.map(f => f.rate))].join('/');
-    return `<div class="fgroup"><h4>${g} <small>${rate} ₪ ל${fs[0].unit || 'גבעול'}</small></h4><div class="fgrid">${fs.map(f => `
+    return `<div class="fgroup"><h4>${g}</h4><div class="fgrid">${fs.map(f => `
       <div class="fopt" data-f="${f.id}">
         <span class="qty-badge" aria-hidden="true">0</span>
         <button type="button" class="thumb" data-step="1" aria-label="הוספת ${f.name}">${thumb(f)}</button>
-        <strong>${f.name}</strong><small>${f.rate} ₪ ל${f.unit || 'גבעול'}</small>
+        <strong>${f.name}</strong>
         <div class="stepper"><button type="button" data-step="-1" aria-label="הפחתת ${f.name}">−</button><output aria-live="polite">0</output><button type="button" data-step="1" aria-label="הוספת ${f.name}">+</button></div>
       </div>`).join('')}</div></div>`;
   }).join('');
