@@ -14,7 +14,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="assets/photos/pink-gerberas.webp" fetchpriority="high">
 <link rel="stylesheet" href="css/style.css">
 <script>(function(){var r=document.documentElement,t=null;try{t=localStorage.getItem('bloomy-theme')}catch(e){}var m=matchMedia('(prefers-color-scheme: dark)');r.dataset.theme=t||(m.matches?'dark':'light');if(!t&&m.addEventListener)m.addEventListener('change',function(e){try{if(localStorage.getItem('bloomy-theme'))return}catch(x){}r.dataset.theme=e.matches?'dark':'light'})})()</script>
 </head>
@@ -80,7 +79,6 @@
 <main id="main">
 <!-- HERO -->
 <section class="hero" id="top">
-  <canvas class="petals" id="petals" aria-hidden="true"></canvas>
   <div class="hero-blob b1" aria-hidden="true"></div><div class="hero-blob b2" aria-hidden="true"></div>
   <div class="hero-copy">
     <span class="eyebrow reveal" dir="ltr">BLOOMY FLOWER STUDIO · KFAR MASARYK</span>
@@ -100,18 +98,17 @@
       <li><strong>0 ₪</strong><span>איסוף עצמי</span></li>
     </ul>
   </div>
-  <div class="hero-visual" id="hero-visual">
-    <figure class="hv-main tilt" data-depth="0.6">
-      <img src="assets/photos/pink-gerberas.webp" alt="זר גרברות וציפורנים ורודות של Bloomy" fetchpriority="high" width="900" height="1200">
-      <figcaption><span dir="ltr">THE BLOOMY FEELING</span>ככה נראה ״חשבתי עלייך״.</figcaption>
-    </figure>
-    <figure class="hv-side s1" data-depth="1.4"><img src="assets/photos/white-bouquet.webp" alt="" width="738" height="979"></figure>
-    <figure class="hv-side s2" data-depth="1"><img src="assets/photos/sunflowers.webp" alt="" width="738" height="979"></figure>
-    <div class="hv-stamp" data-depth="2" aria-hidden="true">
+  <div class="hero-3d" id="hero-3d">
+    <div class="h3d-halo" aria-hidden="true"></div>
+    <canvas id="bloom3d" role="img" aria-label="זר פרחים תלת־ממדי מסתובב"></canvas>
+    <img class="h3d-fallback" src="assets/photos/pink-gerberas.webp" alt="זר גרברות וציפורנים ורודות של Bloomy" width="900" height="1200">
+    <div class="hv-stamp" aria-hidden="true">
       <svg viewBox="0 0 200 200"><defs><path id="circ" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
         <text><textPath href="#circ">a little flower · a lot of love · a little flower · a lot of love ·</textPath></text></svg>
       <span>✳</span>
     </div>
+    <div class="h3d-card glass"><span dir="ltr">THE BLOOMY FEELING</span>ככה נראה ״חשבתי עלייך״.</div>
+    <p class="h3d-hint" aria-hidden="true"><b>⟲</b> גררו לסובב · הקישו לפיזור עלים</p>
   </div>
   <a class="scroll-cue" href="#marquee" aria-label="גללו למטה"><span></span></a>
 </section>
@@ -226,29 +223,57 @@
       <p class="meter-note" id="b-meter-note">הוסיפו פרחים ב־50 ₪ כדי להגיע למינימום</p>
       <div class="stage" id="stage">
         <div class="stage-glow"></div>
-        <div class="bouquet" id="bouquet">
-          <div class="bq-heads" id="bq-heads"></div>
-          <svg class="bq-wrap" viewBox="0 0 300 260" aria-hidden="true">
-            <defs>
-              <linearGradient id="paperL" x1="0" x2="1"><stop offset="0" stop-color="var(--wrap-a)"/><stop offset="1" stop-color="var(--wrap-b)"/></linearGradient>
-              <linearGradient id="paperR" x1="1" x2="0"><stop offset="0" stop-color="var(--wrap-a)"/><stop offset="1" stop-color="var(--wrap-c)"/></linearGradient>
-            </defs>
-            <path d="M18 18 L150 250 L120 40 Z" fill="url(#paperL)" opacity=".95"/>
-            <path d="M282 18 L150 250 L180 40 Z" fill="url(#paperR)" opacity=".95"/>
-            <path d="M60 60 L150 250 L240 60 Q150 95 60 60Z" fill="var(--wrap-a)"/>
-            <path d="M60 60 Q150 95 240 60" fill="none" stroke="var(--wrap-c)" stroke-width="1.5" opacity=".5"/>
-            <g class="ribbon"><path d="M128 196 Q150 206 172 196 L168 212 Q150 220 132 212Z" fill="var(--ribbon)"/>
-              <path d="M150 205 q-30 -2 -38 18 q22 4 38 -14Z M150 205 q30 -2 38 18 q-22 4 -38 -14Z" fill="var(--ribbon)" opacity=".9"/>
-              <path d="M146 210 l-12 40 M154 210 l12 40" stroke="var(--ribbon)" stroke-width="5" stroke-linecap="round"/></g>
-          </svg>
+        <div class="bq3" id="bq3" data-wrap="kraft">
+          <div class="bq-scene" id="bq-scene">
+            <svg class="wrap-back" id="wrap-back" viewBox="0 0 400 440" aria-hidden="true">
+              <defs>
+                <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="n"/><feColorMatrix in="n" type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .22"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+                <linearGradient id="wb1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--p3)"/><stop offset=".5" style="stop-color:var(--p1)"/><stop offset="1" style="stop-color:var(--p3)"/></linearGradient>
+                <linearGradient id="wb2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--t1)"/><stop offset="1" style="stop-color:var(--t2)"/></linearGradient>
+              </defs>
+              <path class="tissue" d="M16 172 C46 122 84 142 112 106 C150 70 176 96 200 80 C226 96 252 70 290 106 C318 142 356 122 384 172 L224 352 L176 352 Z" fill="url(#wb2)"/>
+              <path class="paper" d="M44 158 Q200 104 356 158 L222 352 L178 352 Z" fill="url(#wb1)" filter="url(#grain)"/>
+            </svg>
+            <div class="bq-heads" id="bq-heads"></div>
+            <svg class="wrap-front" id="wrap-front" viewBox="0 0 400 440" aria-hidden="true">
+              <defs>
+                <linearGradient id="wfl" x1="0" y1="0" x2="1" y2=".3"><stop offset="0" style="stop-color:var(--p2)"/><stop offset=".55" style="stop-color:var(--p1)"/><stop offset="1" style="stop-color:var(--p3)"/></linearGradient>
+                <linearGradient id="wfr" x1="1" y1="0" x2="0" y2=".3"><stop offset="0" style="stop-color:var(--p3)"/><stop offset=".6" style="stop-color:var(--p1)"/><stop offset="1" style="stop-color:var(--p2)"/></linearGradient>
+                <linearGradient id="rib" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--r1)"/><stop offset=".45" style="stop-color:var(--r2)"/><stop offset="1" style="stop-color:var(--r3)"/></linearGradient>
+                <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+              </defs>
+              <g id="bq-stems"></g>
+              <path class="paper" d="M22 212 Q105 262 214 274 L213 354 L183 352 Z" fill="url(#wfl)" filter="url(#grain)"/>
+              <path class="paper" d="M378 206 Q300 258 186 280 L217 352 L187 354 Z" fill="url(#wfr)" filter="url(#grain)"/>
+              <path class="fold" d="M70 232 L192 350 M330 230 L208 350 M140 258 L198 350" style="stroke:var(--p3)" stroke-width="1.2" fill="none" opacity=".55"/>
+              <path class="edge" d="M22 212 Q105 262 214 274 M378 206 Q300 258 186 280" stroke="#fff" stroke-opacity=".5" stroke-width="2" fill="none"/>
+              <path class="sheen" d="M90 238 L196 346 L206 346 L120 246Z M300 236 L204 346 L212 346 L318 232Z" fill="url(#sheen)"/>
+              <g class="ribbon">
+                <path d="M172 338 Q200 346 228 338 L230 358 Q200 366 170 358Z" fill="url(#rib)"/>
+                <path d="M200 350 C178 330 140 326 138 348 C136 368 172 364 200 352Z" fill="url(#rib)"/>
+                <path d="M200 350 C222 330 260 326 262 348 C264 368 228 364 200 352Z" fill="url(#rib)"/>
+                <path d="M196 354 C186 380 172 400 158 418 L170 422 C184 404 196 384 202 358Z M204 354 C214 380 228 400 242 418 L230 422 C216 404 204 384 198 358Z" fill="url(#rib)"/>
+                <ellipse cx="200" cy="351" rx="10" ry="9" style="fill:var(--r2)"/>
+                <path d="M146 342 C160 336 176 338 190 348" stroke="#fff" stroke-opacity=".45" stroke-width="2" fill="none"/>
+              </g>
+            </svg>
+          </div>
+          <div class="bq-shadow" aria-hidden="true"></div>
         </div>
         <p class="stage-empty" id="stage-empty">הוסיפו את הפרח הראשון שלכם 🌷</p>
+        <p class="stage-hint" aria-hidden="true">⟲ גררו לסובב את הזר</p>
         <div class="stage-actions">
           <button type="button" class="mini" id="b-undo" disabled>↶ ביטול</button>
-          <button type="button" class="mini" id="b-wrap">🎀 עטיפה</button>
           <button type="button" class="mini" id="b-shuffle">⟳ סידור מחדש</button>
           <button type="button" class="mini" id="b-clear">ניקוי</button>
         </div>
+      </div>
+      <div class="wrap-pick" role="radiogroup" aria-label="סוג עטיפה">
+        <span class="label">עטיפה:</span>
+        <label><input type="radio" name="wrap" value="kraft" checked><span><i class="wk kraft"></i>נייר קראפט</span></label>
+        <label><input type="radio" name="wrap" value="blush"><span><i class="wk blush"></i>ורוד עדין</span></label>
+        <label><input type="radio" name="wrap" value="white"><span><i class="wk white"></i>לבן</span></label>
+        <label><input type="radio" name="wrap" value="clear"><span><i class="wk clear"></i>שקוף</span></label>
       </div>
       <p class="fine">הדמיה לפי ההרכב שבחרתם. זו אינה תמונה של הזר שיישלח; מראה ושזירה עשויים להשתנות.</p>
       <div class="studio-cta">
@@ -278,16 +303,17 @@
 </section>
 
 <!-- REAL LIFE HORIZONTAL GALLERY -->
-<section class="hscroll" id="gallery">
-  <div class="hscroll-sticky">
-    <div class="hscroll-head">
-      <span class="eyebrow" dir="ltr">BLOOMY, IN REAL LIFE</span>
-      <h2>ככה זה נראה <em>אצלנו.</em></h2>
-      <p>צילומים אמיתיים של הזרים שלנו — בשביל הצבעים, השזירה וההשראה.</p>
-      <a class="link-arrow" href="https://www.instagram.com/bloomy_flowers33/" target="_blank" rel="noopener">עוד זרים באינסטגרם ←</a>
-    </div>
-    <div class="hscroll-track" id="hscroll-track"></div>
+<section class="section ring-sec" id="gallery">
+  <div class="section-head center reveal">
+    <span class="eyebrow" dir="ltr">BLOOMY, IN REAL LIFE</span>
+    <h2>ככה זה נראה <em>אצלנו.</em></h2>
+    <p>צילומים אמיתיים של הזרים שלנו. גררו כדי לסובב, הקישו על זר לפרטים.</p>
   </div>
+  <div class="ring-stage" id="ring-stage">
+    <div class="ring-floor" aria-hidden="true"></div>
+    <div class="ring" id="ring"></div>
+  </div>
+  <p class="center-link"><a class="link-arrow" href="https://www.instagram.com/bloomy_flowers33/" target="_blank" rel="noopener">עוד זרים באינסטגרם ←</a></p>
 </section>
 
 <!-- STORY -->
@@ -415,10 +441,6 @@
           <div class="ce-icon">🌷</div><p>הסל עדיין ריק.</p>
           <div class="hero-actions center"><a class="btn btn-solid" href="#collection" data-close-drawer><span>לזרים</span></a><a class="btn btn-ghost" href="#builder" data-close-drawer><span>לבנייה עצמית</span></a></div>
         </div>
-        <fieldset class="extras" id="extras-box">
-          <legend>עוד משהו קטן ליד הזר? <small>מחיר וזמינות בתיאום</small></legend>
-          <div class="extras-row" id="extras"></div>
-        </fieldset>
       </section>
       <!-- step 1: fulfilment -->
       <section class="step-pane" data-pane="1" hidden>
@@ -521,10 +543,12 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="vendor/three.min.js"></script>
 <script src="js/data.js"></script>
 <script src="js/fx.js"></script>
 <script src="js/store.js"></script>
 <script src="js/builder.js"></script>
 <script src="js/checkout.js"></script>
+<script src="js/bloom3d.js"></script>
 </body>
 </html>

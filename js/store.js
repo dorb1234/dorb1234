@@ -204,14 +204,38 @@
   range.addEventListener('input', () => { fs.budget = +range.value; finder(); });
   finder();
 
-  /* ================= GALLERY ================= */
-  const order = [4, 3, 5, 1, 2, 7, 6, 8];
-  $('#hscroll-track').innerHTML = order.map(id => {
-    const p = D.products.find(x => x.id === id);
-    return `<button type="button" class="hs-item" data-qv="${p.id}"><figure style="margin:0"><div class="hs-img"><img src="${photo(p.img)}" alt="צילום אמיתי: ${p.short}" loading="lazy"></div><figcaption>${p.name}<span>${money(p.price)}</span></figcaption></figure></button>`;
-  }).join('');
-  window.addEventListener('load', () => window.BloomyFX.sizeH());
-  setTimeout(() => window.BloomyFX.sizeH(), 300);
+  /* ================= 3D RING GALLERY ================= */
+  {
+    const order = [4, 3, 5, 1, 2, 7, 6, 8], ring = $('#ring'), stage = $('#ring-stage');
+    ring.innerHTML = order.map((id, i) => {
+      const p = D.products.find(x => x.id === id);
+      return `<button type="button" class="ring-item" data-qv="${p.id}" style="--i:${i}"><img src="${photo(p.img)}" alt="צילום אמיתי: ${p.short}" loading="lazy" draggable="false"><span class="ri-cap"><b>${p.name}</b><small>${money(p.price)}</small></span></button>`;
+    }).join('');
+    const n = order.length, step = 360 / n;
+    let angle = 0, vel = 0, drag = null, moved = 0, on = false, last = performance.now();
+    const reduced = window.BloomyFX.reduced;
+    function layout() {
+      const w = stage.clientWidth, item = Math.min(260, Math.max(150, w * .2));
+      const r = Math.round((item / 2) / Math.tan(Math.PI / n) * 1.12);
+      stage.style.setProperty('--item', item + 'px'); stage.style.setProperty('--r', r + 'px');
+    }
+    layout(); addEventListener('resize', layout);
+    stage.addEventListener('pointerdown', e => { drag = e.clientX; moved = 0; vel = 0; stage.classList.add('grab'); });
+    addEventListener('pointermove', e => { if (drag === null) return; const d = e.clientX - drag; drag = e.clientX; moved += Math.abs(d); vel = d * .25; angle += d * .25; });
+    addEventListener('pointerup', () => { drag = null; stage.classList.remove('grab'); });
+    stage.addEventListener('click', e => { if (moved > 6) { e.stopPropagation(); e.preventDefault(); } }, true);
+    function tick(now) {
+      if (!on) return;
+      const dt = Math.min(50, now - last); last = now;
+      if (drag === null) { vel *= .95; angle += vel + (reduced ? 0 : dt * .008); }
+      ring.style.transform = `translateZ(calc(var(--r) * -1)) rotateY(${angle.toFixed(2)}deg)`;
+      // brighten the item facing the viewer
+      const front = ((Math.round(-angle / step) % n) + n) % n;
+      ring.querySelectorAll('.ring-item').forEach((el, i) => el.classList.toggle('front', i === front));
+      requestAnimationFrame(tick);
+    }
+    new IntersectionObserver(([e]) => { const was = on; on = e.isIntersecting; if (on && !was) { last = performance.now(); requestAnimationFrame(tick); } }).observe(stage);
+  }
 
   render(); syncFavs();
 })();

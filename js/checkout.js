@@ -10,7 +10,7 @@
   const o = {
     fulfil: 'pickup', point: null, label: '', fee: null, routed: false, regional: false,
     date: '', name: '', phone: '', notes: '', addr: '',
-    greet: '', sign: '', who: 'love', cstyle: 'blush', pay: 'לתאם עם העסק', extras: new Set()
+    greet: '', sign: '', who: 'love', cstyle: 'blush', pay: 'לתאם עם העסק'
   };
   try { const s = JSON.parse(localStorage.getItem('bloomy-order') || 'null'); if (s) { ['greet', 'sign', 'who', 'cstyle', 'name', 'phone', 'notes'].forEach(k => { if (typeof s[k] === 'string') o[k] = s[k]; }); } } catch (e) {}
   const persist = () => { try { localStorage.setItem('bloomy-order', JSON.stringify({ greet: o.greet, sign: o.sign, who: o.who, cstyle: o.cstyle, name: o.name, phone: o.phone, notes: o.notes })); } catch (e) {} };
@@ -97,7 +97,6 @@
   function renderCart() {
     const items = Cart.items();
     $('#cart-empty').hidden = !!items.length;
-    $('#extras-box').hidden = !items.length;
     $('#cart-items').innerHTML = items.map(i => `
       <div class="ci" data-key="${i.key}">
         <div class="ci-img">${itemThumb(i)}</div>
@@ -117,18 +116,13 @@
   });
   Cart.subscribe(renderCart);
 
-  /* ---------- extras ---------- */
-  $('#extras').innerHTML = D.extras.map(x => `<label class="extra"><input type="checkbox" value="${x.id}"><span><b>${x.icon}</b>${x.label}<small>${x.note}</small></span></label>`).join('');
-  $('#extras').addEventListener('change', e => { e.target.checked ? o.extras.add(e.target.value) : o.extras.delete(e.target.value); totals(); });
-
   /* ---------- totals ---------- */
   function totals() {
     const sub = Cart.subtotal(), pickup = o.fulfil === 'pickup';
     $('#t-items').textContent = money(sub);
     $('#t-ship-label').textContent = pickup ? 'איסוף עצמי' : 'משלוח משוער';
     $('#t-ship').textContent = pickup ? 'ללא תשלום' : o.fee == null ? (o.point ? 'מחשבים…' : 'לפי כתובת') : 'כ־' + money(o.fee);
-    const ex = o.extras.size ? ' + תוספות' : '';
-    $('#t-total').textContent = (pickup ? money(sub) : o.fee == null ? money(sub) + ' + משלוח' : 'כ־' + money(sub + o.fee)) + ex;
+    $('#t-total').textContent = (pickup ? money(sub) : o.fee == null ? money(sub) + ' + משלוח' : 'כ־' + money(sub + o.fee));
   }
 
   /* ---------- fulfilment ---------- */
@@ -264,9 +258,9 @@
     const L = ['היי Bloomy 🌸 אשמח לתאם הזמנה:', ''];
     Cart.items().forEach((i, k) => {
       L.push(`${k + 1}. ${i.name}${i.qty > 1 ? ` × ${i.qty}` : ''} — ${i.price * i.qty} ₪`);
+      if (i.type === 'custom' && i.wrap) L.push(`   • עטיפה: ${i.wrap}`);
       if (i.type === 'custom') Object.entries(i.counts).forEach(([id, n]) => { const f = BloomyBuilder.byId[id]; L.push(`   • ${f.name}: ${unitTxt(f, n)}`); });
     });
-    if (o.extras.size) L.push('', 'תוספות מבוקשות: ' + D.extras.filter(x => o.extras.has(x.id)).map(x => x.label).join(', ') + ' (מחיר בתיאום)');
     L.push('', 'תאריך מבוקש: ' + (o.date ? `${fmt(o.date)} (${dayName(o.date)})` : 'טרם נבחר'));
     if (o.fulfil === 'pickup') L.push('קבלת הזר: איסוף עצמי מכפר מסריק (ללא תשלום)');
     else {
@@ -276,7 +270,7 @@
       L.push('דמי משלוח משוערים: ' + (o.fee == null ? 'בתיאום' : o.fee + ' ₪'));
     }
     const sub = Cart.subtotal();
-    L.push('', 'סה״כ משוער: ' + (o.fulfil === 'pickup' ? sub + ' ₪' : o.fee == null ? sub + ' ₪ + משלוח' : (sub + o.fee) + ' ₪') + (o.extras.size ? ' + תוספות' : ''));
+    L.push('', 'סה״כ משוער: ' + (o.fulfil === 'pickup' ? sub + ' ₪' : o.fee == null ? sub + ' ₪ + משלוח' : (sub + o.fee) + ' ₪'));
     L.push('אמצעי תשלום מועדף: ' + o.pay + ' (בכפוף לאישור העסק). טרם בוצע תשלום.');
     L.push('', o.greet.trim() ? `ברכה לכרטיס (${styleName[o.cstyle]}):\n${o.greet.trim()}${o.sign.trim() ? '\n— ' + o.sign.trim() : ''}` : 'ברכה לכרטיס: ללא ברכה');
     L.push('', 'אשמח לאישור זמינות ולמחיר סופי 🙏');

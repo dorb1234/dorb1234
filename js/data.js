@@ -101,11 +101,6 @@ window.BLOOMY = {
     special: ['כמה מילים קטנות. הרבה כוונה.', 'שיהיה לך יום שמח ופורח במיוחד ✳']
   },
 
-  extras: [
-    { id: 'chocolate', icon: '🍫', label: 'שוקולדים', note: 'קצת מתוק ליד הפרחים' },
-    { id: 'teddy', icon: '🧸', label: 'דובי', note: 'עוד חיבוק קטן' },
-    { id: 'balloon', icon: '🎈', label: 'בלון', note: 'נגיעה חגיגית' }
-  ],
 
   cities: [
     { name: 'חיפה', lat: 32.794, lon: 34.989 },
