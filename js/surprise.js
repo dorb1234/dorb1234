@@ -13,8 +13,7 @@
   function ui() {
     if (!btn) return;
     btn.classList.toggle('done', unlocked);
-    if (unlocked) { text.textContent = 'קיבלתם 10% הנחה 🎉'; dots.hidden = true; return; }
-    text.textContent = lines[Math.min(taps, lines.length - 1)];
+    text.textContent = unlocked && !taps ? 'יש לכם 10% הנחה 🎉 · עוד פעם?' : lines[Math.min(taps, lines.length - 1)];
     dots.hidden = false;
     dots.innerHTML = Array.from({ length: NEED }, (_, i) => `<i class="${i < taps ? 'on' : ''}"></i>`).join('');
     btn.style.setProperty('--heat', taps / NEED);
@@ -43,14 +42,13 @@
 
   function tap() {
     if (busy) return;
-    if (unlocked) { window.Bloom3D?.sparkle(); return; }
     taps++;
     ui();
     if (window.Bloom3D) window.Bloom3D.pulse(taps / NEED);
     else if (host) { host.classList.remove('shake'); void host.offsetWidth; host.classList.add('shake'); }
     if (navigator.vibrate) try { navigator.vibrate(taps >= NEED ? [30, 40, 60] : 15); } catch (e) {}
     if (taps >= NEED) {
-      busy = true;
+      busy = true; taps = 0;
       (window.Bloom3D ? window.Bloom3D.explode().then(() => new Promise(r => setTimeout(r, 1300))) : new Promise(r => setTimeout(r, 500))).then(reveal);
     }
   }

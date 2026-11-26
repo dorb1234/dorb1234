@@ -808,3 +808,38 @@ select{height:44px;border-radius:999px;border:1px solid var(--line);background:v
 .totals .disc dd{color:#2f8a57}
 .disc-tease{font-size:.82rem;color:var(--berry);margin:0 0 10px;text-align:center}
 @media (max-width:640px){.surprise-btn{font-size:.86rem;padding:9px 14px 9px 12px}.sb-dots i{width:7px;height:7px}}
+
+/* ---------- v4 studio: 3D stage above / beside the picker ---------- */
+.studio3{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(16px,2.5vw,32px);align-items:start}
+.studio3 .stage{position:sticky;top:92px;padding:18px 18px 64px;border-radius:var(--r-lg);border:1px solid var(--line);box-shadow:var(--shadow);background:radial-gradient(ellipse at 50% 45%,var(--surface) 0%,var(--blush-2) 75%);overflow:hidden;cursor:default;touch-action:auto}
+.stage-top{display:flex;justify-content:space-between;align-items:end}
+.studio3 .meter{margin:12px 0 6px}
+#studio3d{display:none;width:100%;height:clamp(340px,52vh,560px);touch-action:none;cursor:grab;outline:none}
+.stage.is3d #studio3d{display:block}
+.stage.is3d .bq3{display:none}
+.stage.turning #studio3d{cursor:grabbing}
+.studio3 .stage-empty{position:absolute;top:52%;left:0;right:0;pointer-events:none}
+.studio3 .stage-hint{top:auto;bottom:52px}
+.studio3 .stage-actions{position:absolute;bottom:12px;left:12px;right:12px}
+.panel{display:grid;gap:14px;min-width:0}
+.panel .wrap-pick{justify-content:flex-start;margin:0}
+.panel-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip.small{padding:6px 13px;font-size:.84rem}
+.ftabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.ftabs::-webkit-scrollbar{display:none}
+.ftabs .chip{flex:0 0 auto}
+.panel .fgrid{grid-template-columns:repeat(auto-fill,minmax(108px,1fr))}
+.more-opts summary{cursor:pointer;font-weight:600;font-size:.9rem;color:var(--berry)}
+.more-opts .palette-budget{margin:12px 0 0}
+.panel .studio-cta{margin-top:4px}
+@media (max-width:900px){
+  .studio3{grid-template-columns:1fr}
+  .studio3 .stage{top:8px;z-index:30;padding:10px 12px 52px}
+  #studio3d{height:34vh;min-height:240px}
+  .studio3 .meter-note,.studio3 .stage-hint{display:none}
+  .studio3 .studio-price strong{font-size:2rem}
+  .studio3 .studio-stems strong{font-size:1.3rem}
+  .studio3 .meter{margin:6px 0 0}
+  .studio3 .stage-actions{bottom:8px}
+  .panel .fgrid{grid-template-columns:repeat(3,1fr)}
+}

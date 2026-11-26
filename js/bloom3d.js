@@ -259,10 +259,12 @@
     if (drag) { spinV = (e.clientX - drag) * .006; dragY += spinV; drag = e.clientX; }
   });
   host.addEventListener('pointerleave', () => { tx = ty = 0; drag = null; });
-  host.addEventListener('pointerdown', e => { drag = e.clientX; host.classList.add('grabbing'); });
-  addEventListener('pointerup', e => {
-    if (drag !== null && Math.abs(spinV) < .01 && !e.target.closest('#surprise-btn')) {
-      // tap: scatter petals from where the pointer is
+  // a tap = press and release without moving much (works with touch even when the page scrolls a bit)
+  let down = null;
+  host.addEventListener('pointerdown', e => { drag = e.clientX; down = { x: e.clientX, y: e.clientY, t: performance.now() }; host.classList.add('grabbing'); });
+  const release = e => {
+    const wasTap = down && Math.hypot(e.clientX - down.x, e.clientY - down.y) < 12 && performance.now() - down.t < 600;
+    if (wasTap && !e.target.closest('#surprise-btn')) {
       const r = host.getBoundingClientRect();
       const v = new T.Vector3(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1, .5).unproject(camera);
       const dir = v.sub(camera.position).normalize();
@@ -270,8 +272,10 @@
       host.classList.add('tapped');
       window.BloomySurprise?.tap();
     }
-    drag = null; host.classList.remove('grabbing');
-  });
+    down = null; drag = null; host.classList.remove('grabbing');
+  };
+  host.addEventListener('pointerup', release);
+  host.addEventListener('pointercancel', () => { down = null; drag = null; host.classList.remove('grabbing'); });
 
   /* ---------- loop ---------- */
   let visible = true, start = performance.now();

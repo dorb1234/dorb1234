@@ -92,7 +92,7 @@
 
   /* ---------- Custom cursor + magnetic + tilt ---------- */
   if (fine && !reduced) {
-    const cur = $('#cursor');
+    const cur = $('#cursor') || document.createElement('div');
     let cx = innerWidth / 2, cy = innerHeight / 2, tx = cx, ty = cy;
     addEventListener('pointermove', e => { tx = e.clientX; ty = e.clientY; cur.classList.add('on'); }, { passive: true });
     document.addEventListener('pointerleave', () => cur.classList.remove('on'));

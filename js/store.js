@@ -176,34 +176,6 @@
   });
   $('#fav-list').addEventListener('click', e => { if (e.target.closest('[data-qv]')) $('#favs').close(); });
 
-  /* ================= FINDER ================= */
-  const fs = { who: null, tone: null, budget: 200 };
-  $('#finder-who').innerHTML = D.recipients.map(r => `<button type="button" class="chip" data-who="${r.id}"><b>${r.icon}</b> ${r.label}</button>`).join('');
-  const range = $('#finder-budget');
-  function finder() {
-    const pct = (fs.budget - 70) / (300 - 70) * 100;
-    range.style.setProperty('--p', pct + '%');
-    $('#finder-budget-out').textContent = fs.budget >= 300 ? 'בלי הגבלה' : `עד ${fs.budget} ₪`;
-    const steps = $$('.finder-steps li');
-    steps[0].classList.add('on'); steps[1].classList.toggle('on', !!fs.who); steps[2].classList.toggle('on', !!fs.who && !!fs.tone);
-    const scored = D.products.map(p => {
-      let s = 0;
-      if (fs.who && p.mood.includes(fs.who)) s += 2;
-      if (fs.tone && fs.tone !== 'any' && p.tone === fs.tone) s += 3;
-      if (p.price <= fs.budget) s += 2; else s -= 5;
-      s += (p.price / fs.budget) * .8; // prefer making the most of the budget
-      return { p, s };
-    }).filter(x => x.p.price <= fs.budget).sort((a, b) => b.s - a.s).slice(0, 3);
-    const res = $('#finder-result');
-    if (!scored.length) { res.innerHTML = '<p class="fr-none">אין זר מוכן בתקציב הזה — אבל אפשר <a href="#builder">להרכיב זר אישי</a> מ־50 ₪.</p>'; return; }
-    const max = Math.max(...scored.map(x => x.s));
-    res.innerHTML = scored.map((x, i) => `<button type="button" class="fr-item" data-qv="${x.p.id}" style="animation-delay:${i * 80}ms"><img src="${photo(x.p.img)}" alt=""><span><strong>${x.p.name}</strong><small>${money(x.p.price)}</small><span class="match">${i === 0 ? '✳ ההתאמה הכי טובה' : Math.round(70 + (x.s / max) * 25) + '% התאמה'}</span></span></button>`).join('');
-  }
-  $('#finder-who').addEventListener('click', e => { const b = e.target.closest('[data-who]'); if (!b) return; fs.who = b.dataset.who; $$('#finder-who .chip').forEach(c => c.classList.toggle('on', c === b)); finder(); });
-  $('#finder-tone').addEventListener('click', e => { const b = e.target.closest('[data-tone]'); if (!b) return; fs.tone = b.dataset.tone; $$('#finder-tone .chip').forEach(c => c.classList.toggle('on', c === b)); finder(); });
-  range.addEventListener('input', () => { fs.budget = +range.value; finder(); });
-  finder();
-
   /* ================= 3D RING GALLERY ================= */
   {
     const order = [4, 3, 5, 1, 2, 7, 6, 8], ring = $('#ring'), stage = $('#ring-stage');

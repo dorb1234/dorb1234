@@ -22,16 +22,19 @@
 
   /* ---------- palette ---------- */
   const groups = [...new Set(D.flowers.map(f => f.group))];
-  $('#flower-list').innerHTML = groups.map(g => {
-    const fs = D.flowers.filter(f => f.group === g);
-    return `<div class="fgroup"><h4>${g}</h4><div class="fgrid">${fs.map(f => `
-      <div class="fopt" data-f="${f.id}">
+  $('#ftabs').innerHTML = ['הכל', ...groups].map((g, i) => `<button type="button" class="chip${i ? '' : ' on'}" role="tab" aria-selected="${!i}" data-tab="${g}">${g}</button>`).join('');
+  $('#flower-list').innerHTML = `<div class="fgrid">${D.flowers.map(f => `
+      <div class="fopt" data-f="${f.id}" data-group="${f.group}">
         <span class="qty-badge" aria-hidden="true">0</span>
         <button type="button" class="thumb" data-step="1" aria-label="הוספת ${f.name}">${thumb(f)}</button>
         <strong>${f.name}</strong>
         <div class="stepper"><button type="button" data-step="-1" aria-label="הפחתת ${f.name}">−</button><output aria-live="polite">0</output><button type="button" data-step="1" aria-label="הוספת ${f.name}">+</button></div>
-      </div>`).join('')}</div></div>`;
-  }).join('');
+      </div>`).join('')}</div>`;
+  $('#ftabs').addEventListener('click', e => {
+    const b = e.target.closest('[data-tab]'); if (!b) return;
+    $$('#ftabs .chip').forEach(c => { c.classList.toggle('on', c === b); c.setAttribute('aria-selected', String(c === b)); });
+    $$('.fopt').forEach(el => { el.hidden = b.dataset.tab !== 'הכל' && el.dataset.group !== b.dataset.tab; });
+  });
   $('#presets').innerHTML = Object.entries(D.presets).map(([k, p]) => `<button type="button" class="chip" data-preset="${k}">${p.label}</button>`).join('');
 
   function remember() { history.push({ ...counts }); if (history.length > 40) history.shift(); }
@@ -59,7 +62,7 @@
   try { const w = localStorage.getItem('bloomy-wrap'); if (wrapNames[w]) wrap = w; } catch (e) {}
   $$('[name=wrap]').forEach(r => {
     r.checked = r.value === wrap;
-    r.addEventListener('change', () => { wrap = r.value; $('#bq3').dataset.wrap = wrap; try { localStorage.setItem('bloomy-wrap', wrap); } catch (e) {} });
+    r.addEventListener('change', () => { wrap = r.value; $('#bq3').dataset.wrap = wrap; try { localStorage.setItem('bloomy-wrap', wrap); } catch (e) {} draw(); });
   });
   $('#bq3').dataset.wrap = wrap;
   window.BloomyBuilder.wrap = () => wrapNames[wrap];
@@ -109,6 +112,16 @@
   const els = new Map(); // key -> element, reused so flowers glide to their new places
   let K = 1;
   function draw() {
+    if (window.Studio3D) {
+      const list = [];
+      for (const f of D.flowers) for (let i = 0; i < counts[f.id]; i++) list.push({ key: f.id + '#' + i, id: f.id });
+      $('#stage-empty').hidden = !!list.length;
+      window.Studio3D.set(list, seed, wrap);
+      return;
+    }
+    draw2d();
+  }
+  function draw2d() {
     const heads = $('#bq-heads'), rand = rng(seed * 9973 + 1);
     K = ($('#bq3').clientWidth || 400) / 400;
     $('#bq3').style.setProperty('--k', K + 'px');
@@ -236,10 +249,6 @@
     const cap = +$('#b-budget').value;
     if (cap && total > cap) { note.textContent = `שימו לב: ${money(total)} — מעל התקציב שבחרתם (${cap} ₪)`; note.classList.remove('ok'); }
     draw();
-    $('#bbar-price').textContent = money(total);
-    $('#bbar-stems').textContent = n === 1 ? 'גבעול אחד' : `${n} גבעולים`;
-    $('#bbar-add').disabled = !ok;
-    $('#bbar-heads').innerHTML = D.flowers.filter(f => counts[f.id] && f.img).slice(0, 4).map(f => `<img src="${imgSrc(f)}" alt="" style="${f.filter ? 'filter:' + f.filter : ''}">`).join('');
   }
 
   $('#b-add').addEventListener('click', () => {
@@ -248,17 +257,9 @@
     const key = 'c' + Object.entries(c).map(([k, v]) => k + v).join('');
     const first = D.flowers.find(f => c[f.id] && !f.filler) || D.flowers.find(f => c[f.id]);
     BloomyCart.add({ key: key + wrap, type: 'custom', name: 'זר בבנייה עצמית', price: total, counts: c, wrap: wrapNames[wrap], detail: `עטיפה: ${wrapNames[wrap]} · ` + describe(c), thumbs: Object.keys(c).filter(k => !byId[k].leaf).slice(0, 4) });
-    if (first?.img) flyTo($('#bouquet'), imgSrc(first));
+    if (first?.img) flyTo($('#stage'), imgSrc(first));
     toast('הזר האישי שלכם נוסף לסל 💐', { label: 'לסל', run: () => window.openCart?.() });
   });
-
-  /* mobile sticky bar: visible while the flower list is on screen but the stage is not */
-  const bbar = $('#bbar'); let listIn = false, stageIn = false;
-  const sync = () => { const on = listIn && !stageIn; bbar.classList.toggle('show', on); bbar.setAttribute('aria-hidden', String(!on)); };
-  new IntersectionObserver(([e]) => { listIn = e.isIntersecting; sync(); }).observe($('#flower-list'));
-  new IntersectionObserver(([e]) => { stageIn = e.isIntersecting; sync(); }, { threshold: .35 }).observe($('#stage'));
-  $('#bbar-peek').addEventListener('click', () => $('#stage').scrollIntoView({ behavior: 'smooth', block: 'center' }));
-  $('#bbar-add').addEventListener('click', () => $('#b-add').click());
 
   update();
 })();
