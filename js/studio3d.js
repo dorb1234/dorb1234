@@ -9,14 +9,15 @@
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
   renderer.outputEncoding = T.sRGBEncoding;
   renderer.toneMapping = T.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = .85;
+  renderer.toneMappingExposure = .88;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let on = false, raf = 0, last = performance.now(), busyUntil = 0;
 
   const scene = new T.Scene();
   const camera = new T.PerspectiveCamera(30, 1, .1, 100);
-  scene.add(new T.HemisphereLight(0xfff5f7, 0xc9a99a, .65));
-  const key = new T.DirectionalLight(0xffffff, 1.2); key.position.set(3, 6, 7); scene.add(key);
+  try { scene.environment = F.studioEnv(renderer); } catch (e) {}
+  scene.add(new T.HemisphereLight(0xfff5f7, 0xc9a99a, .3));
+  const key = new T.DirectionalLight(0xffffff, .95); key.position.set(3, 6, 7); scene.add(key);
   const rim = new T.DirectionalLight(0xffc2d4, .6); rim.position.set(-5, 2, -4); scene.add(rim);
   const fill = new T.DirectionalLight(0xfff0d8, .3); fill.position.set(-4, -2, 6); scene.add(fill);
 
@@ -81,7 +82,7 @@
     const nb = Math.max(1, blooms.length);
     const R = 1.25 + 1.35 * Math.sqrt(Math.min(nb + gyps.length * .4, 44) / 44);
     const base = 1.05 - .42 * Math.min(1, Math.max(0, (nb - 4) / 36));
-    const center = new T.Vector3(0, -R * .45, -R * .7), tilt = -.48, golden = Math.PI * (3 - Math.sqrt(5)), ph0 = rnd() * 6.28;
+    const center = new T.Vector3(0, -R * .42, -R * .72), tilt = -.58, golden = Math.PI * (3 - Math.sqrt(5)), ph0 = rnd() * 6.28;
     const axisX = new T.Vector3(1, 0, 0);
     const dome = (th, ph, r) => {
       const d = new T.Vector3(Math.sin(th) * Math.cos(ph), Math.sin(th) * Math.sin(ph), Math.cos(th)).applyAxisAngle(axisX, tilt).normalize();
@@ -127,8 +128,9 @@
       const curve = new T.CatmullRomCurve3([a, gather.clone().add(new T.Vector3(t.p.x * .1, 0, 0)), end]);
       stemsG.add(new T.Mesh(new T.TubeGeometry(curve, 10, .04, 4, false), stemMat));
     });
-    wrapG.scale.setScalar(.85 + R * .12);
-    wrapG.position.y = (.85 + R * .12) * .7 - .7;
+    const ws = .92 + R * .14;
+    wrapG.scale.set(ws * 1.06, ws, ws * 1.06);
+    wrapG.position.y = ws * .7 - .7;
     kick();
   }
 
@@ -158,7 +160,13 @@
   function frame(now) {
     raf = 0;
     const dt = Math.min(50, now - last) / 1000; last = now;
-    if (!drag) { vy *= .93; yaw += vy; idle += dt; if (!reduced && idle > 2) yaw += dt * .25; }
+    if (!drag) {
+      vy *= .93; yaw += vy; idle += dt;
+      if (idle > 2.5) { // drift back to the front and sway gently
+        const front = -.25 + Math.round((yaw + .25) / 6.2832) * 6.2832;
+        yaw += (front + (reduced ? 0 : Math.sin(now / 1600) * .3) - yaw) * .025;
+      }
+    }
     root.rotation.set(pitch, yaw, 0);
     let moving = false;
     for (const [k, o] of live) {
@@ -171,7 +179,7 @@
       if (o.dying && s < .02) { flowers.remove(m); live.delete(k); }
     }
     renderer.render(scene, camera);
-    const keep = on && (drag || moving || Math.abs(vy) > .0005 || (!reduced && idle > 2) || now < busyUntil);
+    const keep = on && (drag || moving || Math.abs(vy) > .0005 || (!reduced && idle > 2.5) || (idle > 2.5 && idle < 6) || now < busyUntil);
     if (keep) raf = requestAnimationFrame(frame);
   }
   stage.classList.add('is3d');

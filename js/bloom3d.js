@@ -103,6 +103,11 @@
   ];
   const stemPts = [];
   const domeC = new T.Vector3(0, -.9, -1.5), golden = Math.PI * (3 - Math.sqrt(5)), nK = kinds.length;
+  // realistic flower models from flora3d.js when available; the hand-built ones otherwise
+  const F = window.Flora3D, growing = [];
+  const floraIds = [['rose', 1.25], ['gerbera', 1.1], ['rose-orange', 1.15], ['rose-white', 1.15], ['sunflower', 1], ['rose-red', 1.1], ['lisianthus-pink', 1.1],
+    ['gerbera-white', 1], ['carnation', 1.2], ['lily-pink', .95], ['gerbera-yellow', 1], ['lisianthus-white', 1.05], ['carnation-wine', 1.1]];
+  if (F) { try { scene.environment = F.studioEnv(renderer); } catch (e) {} }
   kinds.forEach(([fn, col, size], i) => {
     const th = Math.acos(1 - (i + .5) / nK * (1 - Math.cos(1.05)));
     const ph = i * golden + .6;
@@ -110,7 +115,13 @@
     const local = new T.Vector3(Math.sin(th) * Math.cos(ph), Math.sin(th) * Math.sin(ph), Math.cos(th));
     const dir = local.clone().applyAxisAngle(new T.Vector3(1, 0, 0), -.62).normalize();
     const p = domeC.clone().add(dir.clone().multiplyScalar(2.45));
-    const f = fn(col, size, .25 + i * .07);
+    let f;
+    if (F) {
+      const [id, sz] = floraIds[i % floraIds.length];
+      f = new T.Mesh(F.geometry(id), F.material);
+      growing.push({ m: f, s: sz, delay: .25 + i * .08 });
+      f.scale.setScalar(reduced ? sz : .001);
+    } else f = fn(col, size, .25 + i * .07);
     f.position.copy(p);
     f.lookAt(p.clone().add(dir));
     f.rotateZ(rand(0, Math.PI * 2));
@@ -291,6 +302,7 @@
   function frame(now) {
     const t = (now - start) / 1000;
     for (const b of blooming) b.m.rotation.x = 1.5 + (b.lift - 1.5) * ease((t - .4 - b.delay) / 1.6);
+    for (const g of growing) { const k = ease((t - .4 - g.delay) / 1.2); if (k < 1 || g.m.scale.x !== g.s) g.m.scale.setScalar(Math.max(.001, g.s * k)); }
     const sc = Math.min(1, scrollY / innerHeight);
     if (!drag) { spinV *= .94; dragY += spinV; }
     if (phase !== 'idle') stepSurprise(now);
