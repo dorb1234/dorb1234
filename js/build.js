@@ -13,7 +13,7 @@
   const GA = new URLSearchParams(location.search).has('giveaway'), GV = D.giveaway || {};
   const gaEnd = new Date(GV.ends || 0).getTime(), gaOpen = () => Date.now() < gaEnd;
   const KEY = GA ? 'bloomy-builder-ga' : 'bloomy-builder';
-  const MAX = GA ? (GV.maxStems || 30) : D.maxStems;
+  const MAX = D.maxStems, CAP = GA ? (GV.maxValue || 150) : Infinity;
   if (GA) document.body.classList.add('ga');
   let counts = blank();
   const saved = load(KEY, null);
@@ -24,7 +24,18 @@
 
   const quote = c => Object.entries(c).reduce((a, [id, n]) => a + (byId[id]?.rate || 0) * n, 0);
   const stems = c => Object.values(c).reduce((a, b) => a + b, 0);
+  // giveaway: quietly keep the bouquet under the cap (most expensive blooms go first)
+  function trim(c) {
+    const r = { ...c }; let guard = 300;
+    while (quote(r) > CAP && guard--) {
+      const ids = Object.keys(r).filter(k => r[k] > 0).sort((a, b) => (r[b] > 1) - (r[a] > 1) || byId[b].rate - byId[a].rate);
+      if (!ids.length) break; r[ids[0]]--;
+    }
+    return r;
+  }
+  const full = () => { toast('הזר מלא 💐 אפשר להוריד פרח כדי להחליף'); const el = document.getElementById('b-note'); if (el) { el.textContent = 'הזר מלא 💐'; el.classList.add('ok'); } };
   const unitTxt = (f, n) => f.unit === 'ענף' ? (n === 1 ? 'ענף אחד' : n + ' ענפים') : (n === 1 ? 'גבעול אחד' : n + ' גבעולים');
+  if (GA) counts = trim(counts);
 
   /* ---------- toast ---------- */
   let tt;
@@ -56,7 +67,8 @@
   $('#tray').addEventListener('click', e => {
     const b = e.target.closest('[data-step]'); if (!b) return;
     const id = b.closest('[data-f]').dataset.f, d = +b.dataset.step;
-    if (d > 0 && stems(counts) >= MAX) { toast(GA ? `בהגרלה: עד ${MAX} גבעולים בזר` : `עד ${MAX} גבעולים בזר`); return; }
+    if (d > 0 && stems(counts) >= MAX) { toast(`עד ${MAX} גבעולים בזר`); return; }
+    if (d > 0 && quote(counts) + byId[id].rate > CAP) { full(); return; }
     const n = Math.max(0, Math.min(60, counts[id] + d)); if (n === counts[id]) return;
     remember(); counts[id] = n; update();
   });
@@ -67,7 +79,7 @@
   $('#presets').addEventListener('click', e => {
     if (e.target.closest('#b-surprise')) { surprise(); return; }
     const b = e.target.closest('[data-preset]'); if (!b) return;
-    remember(); counts = { ...blank(), ...D.presets[b.dataset.preset].counts }; seed++; update();
+    remember(); counts = trim({ ...blank(), ...D.presets[b.dataset.preset].counts }); seed++; update();
   });
   function surprise() {
     const keys = Object.keys(D.palettes), pal = D.palettes[keys[(Math.random() * keys.length) | 0]];
@@ -76,7 +88,7 @@
       .forEach((id, i) => { c[id] = (i ? 2 : 4) + (Math.random() * 3 | 0); });
     if (pal.includes('gypsophila')) c.gypsophila = 2 + (Math.random() * 2 | 0);
     if (pal.includes('greenery')) c.greenery = 2;
-    remember(); counts = c; seed++; update();
+    remember(); counts = trim(c); seed++; update();
   }
 
   /* ---------- tools ---------- */
@@ -183,7 +195,8 @@
     const total = quote(counts), el = $('#b-note');
     if (GA) {
       const n = stems(counts), min = GV.minStems || 5;
-      el.textContent = n < min ? `לפחות ${min} גבעולים · עד ${MAX}` : `✓ ${n} מתוך ${MAX} גבעולים`;
+      const isFull = D.flowers.every(f => quote(counts) + f.rate > CAP);
+      el.textContent = n < min ? `בחרו לפחות ${min} גבעולים` : isFull ? 'הזר מלא 💐' : `✓ ${n} גבעולים בזר`;
       el.classList.toggle('ok', n >= min); el.classList.toggle('warn', !!warn && n < min);
       return;
     }

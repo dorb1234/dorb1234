@@ -8,11 +8,12 @@ window.BLOOMY = {
   shippingPerKm: 3,
 
   /* Instagram giveaway: one winner gets the bouquet they built.
-     ends = when entries close (Israel time). maxStems = size cap for entries. */
+     ends = when entries close (Israel time). maxValue = hidden cap on the bouquet's value (₪),
+     never shown to participants. */
   giveaway: {
     ends: '2026-12-04T12:00:00+02:00',
     endsLabel: 'יום שישי, 4.12 בשעה 12:00',
-    maxStems: 30,
+    maxValue: 150,
     minStems: 5
   },
   customMinimum: 50,
