@@ -19,7 +19,7 @@
   const saved = load(KEY, null);
   if (saved) for (const k in saved) if (k in counts) counts[k] = Math.max(0, Math.min(60, saved[k] | 0));
   let wrap = 'kraft'; try { const w = localStorage.getItem('bloomy-wrap'); if (wrapNames[w]) wrap = w; } catch (e) {}
-  let seed = 7, step = 0;
+  let seed = 7, step = 0, lastAdded = null;
   const history = [];
 
   const quote = c => Object.entries(c).reduce((a, [id, n]) => a + (byId[id]?.rate || 0) * n, 0);
@@ -70,7 +70,7 @@
     if (d > 0 && stems(counts) >= MAX) { toast(`עד ${MAX} גבעולים בזר`); return; }
     if (d > 0 && quote(counts) + byId[id].rate > CAP) { full(); return; }
     const n = Math.max(0, Math.min(60, counts[id] + d)); if (n === counts[id]) return;
-    remember(); counts[id] = n; update();
+    remember(); counts[id] = n; lastAdded = d > 0 ? id : null; update();
   });
 
   /* ---------- quick starts ---------- */
@@ -79,7 +79,7 @@
   $('#presets').addEventListener('click', e => {
     if (e.target.closest('#b-surprise')) { surprise(); return; }
     const b = e.target.closest('[data-preset]'); if (!b) return;
-    remember(); counts = trim({ ...blank(), ...D.presets[b.dataset.preset].counts }); seed++; update();
+    remember(); counts = trim({ ...blank(), ...D.presets[b.dataset.preset].counts }); seed++; lastAdded = '*'; update();
   });
   function surprise() {
     const keys = Object.keys(D.palettes), pal = D.palettes[keys[(Math.random() * keys.length) | 0]];
@@ -88,7 +88,7 @@
       .forEach((id, i) => { c[id] = (i ? 2 : 4) + (Math.random() * 3 | 0); });
     if (pal.includes('gypsophila')) c.gypsophila = 2 + (Math.random() * 2 | 0);
     if (pal.includes('greenery')) c.greenery = 2;
-    remember(); counts = trim(c); seed++; update();
+    remember(); counts = trim(c); seed++; lastAdded = '*'; update();
   }
 
   /* ---------- tools ---------- */
@@ -186,7 +186,7 @@
     const list = [];
     for (const f of D.flowers) for (let i = 0; i < counts[f.id]; i++) list.push({ key: f.id + '#' + i, id: f.id });
     $('#stage-empty').hidden = !!list.length;
-    if (window.Studio3D) { window.Studio3D.set(list, seed, wrap); return; }
+    if (window.Bouquet2D) { window.Bouquet2D.wrap(wrap); window.Bouquet2D.render(counts, seed, lastAdded); lastAdded = null; return; }
     // no WebGL: a simple picture collage of the chosen flowers
     const fb = $('#b-fallback'); fb.hidden = false;
     fb.innerHTML = list.slice(0, 40).map((x, i) => `<span style="--i:${i}">${pic(byId[x.id])}</span>`).join('');

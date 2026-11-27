@@ -68,10 +68,12 @@ window.BLOOMY = {
     { id: 'lily-white', name: 'לילי לבן', group: 'לילי ושושן', rate: 15, img: 'lily-white', color: '#f6f1e4' },
     { id: 'lily-orange', name: 'לילי כתום', group: 'לילי ושושן', rate: 15, img: 'lily-orange', color: '#f59637' },
     { id: 'lily', name: 'ניצן שושן', group: 'לילי ושושן', rate: 15, img: 'lily', color: '#9abb4a', bud: true },
-    { id: 'lisianthus-white', name: 'ליזיאנטוס לבן', group: 'ליזיאנטוס', rate: 7, img: 'rose-white', color: '#fff9e7', filter: 'saturate(.6) brightness(1.06)', scale: .82 },
-    { id: 'lisianthus-pink', name: 'ליזיאנטוס ורוד', group: 'ליזיאנטוס', rate: 7, img: 'rose', color: '#e5b3d0', filter: 'hue-rotate(-18deg) saturate(.8) brightness(1.05)', scale: .82 },
+    { id: 'lisianthus-white', name: 'ליזיאנטוס לבן', group: 'ליזיאנטוס', rate: 7, img: 'lisianthus-white', color: '#fff9e7' },
+    { id: 'lisianthus-pink', name: 'ליזיאנטוס ורוד', group: 'ליזיאנטוס', rate: 7, img: 'lisianthus-pink', color: '#f3c6d3' },
     { id: 'carnation', name: 'ציפורן ורודה', group: 'ציפורנים', rate: 7, img: 'carnation', color: '#ee93b0' },
-    { id: 'carnation-wine', name: 'ציפורן בורדו', group: 'ציפורנים', rate: 7, img: 'carnation', color: '#a43360', filter: 'hue-rotate(-12deg) saturate(1.5) brightness(.62)' },
+    { id: 'carnation-wine', name: 'ציפורן ורוד כהה', group: 'ציפורנים', rate: 7, img: 'carnation-dark', color: '#c2305f' },
+    { id: 'carnation-red', name: 'ציפורן אדומה', group: 'ציפורנים', rate: 7, img: 'carnation-red', color: '#c81d25' },
+    { id: 'carnation-white', name: 'ציפורן לבנה', group: 'ציפורנים', rate: 7, img: 'carnation-white', color: '#f7f4ee' },
     { id: 'sunflower', name: 'חמנייה', group: 'חמניות', rate: 15, img: 'sunflower', color: '#edbc42' },
     { id: 'gypsophila', name: 'גיבסנית', group: 'השלמות', rate: 5, img: 'gypsophila', color: '#fffdf1', unit: 'ענף', filler: true },
     { id: 'greenery', name: 'ירק', group: 'השלמות', rate: 5, img: null, color: '#66885d', unit: 'ענף', filler: true, leaf: true }
@@ -88,8 +90,8 @@ window.BLOOMY = {
   palettes: {
     pink:   ['gerbera', 'rose', 'carnation', 'lisianthus-pink', 'lily-pink', 'gypsophila', 'greenery'],
     sunny:  ['sunflower', 'gerbera-yellow', 'rose-orange', 'lily', 'gypsophila', 'greenery'],
-    light:  ['rose-white', 'lisianthus-white', 'lily-white', 'gerbera-white', 'lily', 'gypsophila', 'greenery'],
-    bold:   ['rose-red', 'gerbera-red', 'carnation-wine', 'rose', 'gypsophila', 'greenery'],
+    light:  ['rose-white', 'lisianthus-white', 'lily-white', 'gerbera-white', 'carnation-white', 'lily', 'gypsophila', 'greenery'],
+    bold:   ['rose-red', 'gerbera-red', 'carnation-red', 'carnation-wine', 'gypsophila', 'greenery'],
     mix:    ['gerbera', 'sunflower', 'rose-orange', 'lisianthus-white', 'carnation-wine', 'lily', 'gypsophila', 'greenery']
   },
 

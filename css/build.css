@@ -88,7 +88,7 @@ body.bpage{overflow:hidden;display:flex;flex-direction:column;background:radial-
 @media (max-width:860px){
   .b-top{padding-top:calc(6px + env(safe-area-inset-top,0px));padding-bottom:6px}
   .b-top .brand{font-size:1.45rem}
-  .b-app{grid-template-columns:1fr;grid-template-rows:minmax(220px,42%) minmax(0,1fr);gap:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+  .b-app{grid-template-columns:1fr;grid-template-rows:minmax(240px,48%) minmax(0,1fr);gap:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
   .b-price strong{font-size:1.8rem}
   .b-tools{flex-direction:row;top:auto;bottom:10px;left:10px}
   .b-tool{width:38px;height:38px}
@@ -121,3 +121,9 @@ body.bpage{overflow:hidden;display:flex;flex-direction:column;background:radial-
 .ga .b-summary li{padding:5px 0}
 .ga .b-next-wa{background:#1fa855}
 @media (max-width:860px){.ga-bar{margin-bottom:6px;padding:7px 12px;font-size:.84rem}.ga .b-price::before{font-size:1rem}}
+
+/* ---------- photo bouquet in the studio ---------- */
+.b-stage .bq3{position:absolute;left:50%;top:54%;translate:-50% -50%;width:auto;height:84%;max-width:94%;aspect-ratio:400/440;margin:0;touch-action:none}
+.b-stage{touch-action:pan-y}
+.b-stage .stage-glow{display:none}
+@media (max-width:860px){.b-stage .bq3{top:57%;height:92%}}

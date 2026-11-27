@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=12">
-<link rel="stylesheet" href="css/build.css?v=12">
+<link rel="stylesheet" href="css/style.css?v=13">
+<link rel="stylesheet" href="css/build.css?v=13">
 <script>(function(){var r=document.documentElement,t=null;try{t=localStorage.getItem('bloomy-theme')}catch(e){}r.dataset.theme=t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')})()</script>
 </head>
 <body class="bpage">
@@ -34,15 +34,50 @@
       <strong id="b-price">0 ₪</strong>
       <small id="b-stems">0 גבעולים</small>
     </div>
-    <canvas id="studio3d" aria-label="הזר שלכם בתלת־ממד. גררו כדי לסובב."></canvas>
-    <div class="b-fallback" id="b-fallback" hidden></div>
+        <div class="bq3" id="bq3" data-wrap="kraft">
+          <div class="bq-scene" id="bq-scene">
+            <svg class="wrap-back" id="wrap-back" viewBox="0 0 400 440" aria-hidden="true">
+              <defs>
+                <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="n"/><feColorMatrix in="n" type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .22"/></feComponentTransfer><feComposite in2="SourceGraphic" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+                <linearGradient id="wb1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--p3)"/><stop offset=".5" style="stop-color:var(--p1)"/><stop offset="1" style="stop-color:var(--p3)"/></linearGradient>
+                <linearGradient id="wb2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--t1)"/><stop offset="1" style="stop-color:var(--t2)"/></linearGradient>
+              </defs>
+              <path class="tissue" d="M16 172 C46 122 84 142 112 106 C150 70 176 96 200 80 C226 96 252 70 290 106 C318 142 356 122 384 172 L224 352 L176 352 Z" fill="url(#wb2)"/>
+              <path class="paper" d="M44 158 Q200 104 356 158 L222 352 L178 352 Z" fill="url(#wb1)" filter="url(#grain)"/>
+            </svg>
+            <div class="bq-heads" id="bq-heads"></div>
+            <svg class="wrap-front" id="wrap-front" viewBox="0 0 400 440" aria-hidden="true">
+              <defs>
+                <linearGradient id="wfl" x1="0" y1="0" x2="1" y2=".3"><stop offset="0" style="stop-color:var(--p2)"/><stop offset=".55" style="stop-color:var(--p1)"/><stop offset="1" style="stop-color:var(--p3)"/></linearGradient>
+                <linearGradient id="wfr" x1="1" y1="0" x2="0" y2=".3"><stop offset="0" style="stop-color:var(--p3)"/><stop offset=".6" style="stop-color:var(--p1)"/><stop offset="1" style="stop-color:var(--p2)"/></linearGradient>
+                <linearGradient id="rib" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--r1)"/><stop offset=".45" style="stop-color:var(--r2)"/><stop offset="1" style="stop-color:var(--r3)"/></linearGradient>
+                <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+              </defs>
+              <g id="bq-stems"></g>
+              <path class="paper" d="M22 212 Q105 262 214 274 L213 354 L183 352 Z" fill="url(#wfl)" filter="url(#grain)"/>
+              <path class="paper" d="M378 206 Q300 258 186 280 L217 352 L187 354 Z" fill="url(#wfr)" filter="url(#grain)"/>
+              <path class="fold" d="M70 232 L192 350 M330 230 L208 350 M140 258 L198 350" style="stroke:var(--p3)" stroke-width="1.2" fill="none" opacity=".55"/>
+              <path class="edge" d="M22 212 Q105 262 214 274 M378 206 Q300 258 186 280" stroke="#fff" stroke-opacity=".5" stroke-width="2" fill="none"/>
+              <path class="sheen" d="M90 238 L196 346 L206 346 L120 246Z M300 236 L204 346 L212 346 L318 232Z" fill="url(#sheen)"/>
+              <g class="ribbon">
+                <path d="M172 338 Q200 346 228 338 L230 358 Q200 366 170 358Z" fill="url(#rib)"/>
+                <path d="M200 350 C178 330 140 326 138 348 C136 368 172 364 200 352Z" fill="url(#rib)"/>
+                <path d="M200 350 C222 330 260 326 262 348 C264 368 228 364 200 352Z" fill="url(#rib)"/>
+                <path d="M196 354 C186 380 172 400 158 418 L170 422 C184 404 196 384 202 358Z M204 354 C214 380 228 400 242 418 L230 422 C216 404 204 384 198 358Z" fill="url(#rib)"/>
+                <ellipse cx="200" cy="351" rx="10" ry="9" style="fill:var(--r2)"/>
+                <path d="M146 342 C160 336 176 338 190 348" stroke="#fff" stroke-opacity=".45" stroke-width="2" fill="none"/>
+              </g>
+            </svg>
+          </div>
+          <div class="bq-shadow" aria-hidden="true"></div>
+        </div>
     <p class="b-empty" id="stage-empty">בחרו פרחים כדי להתחיל 🌷</p>
     <div class="b-tools">
       <button type="button" class="b-tool" id="b-undo" aria-label="ביטול הפעולה האחרונה" disabled>↶</button>
       <button type="button" class="b-tool" id="b-shuffle" aria-label="סידור מחדש">⟳</button>
       <button type="button" class="b-tool" id="b-clear" aria-label="ניקוי הזר">🗑</button>
     </div>
-    <p class="b-hint" aria-hidden="true">⟲ גררו את הזר כדי לסובב</p>
+    <p class="b-hint" aria-hidden="true">⟲ אפשר להזיז את הזר באצבע</p>
   </section>
 
   <!-- the controls -->
@@ -99,10 +134,8 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="vendor/three.min.js"></script>
-<script src="js/data.js?v=12"></script>
-<script src="js/flora3d.js?v=12"></script>
-<script src="js/studio3d.js?v=12"></script>
-<script src="js/build.js?v=12"></script>
+<script src="js/data.js?v=13"></script>
+<script src="js/bouquet2d.js?v=13"></script>
+<script src="js/build.js?v=13"></script>
 </body>
 </html>
